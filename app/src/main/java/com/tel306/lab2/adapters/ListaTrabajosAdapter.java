@@ -48,8 +48,8 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
     public void onBindViewHolder(TrabajoViewHolder holder, int position) {
         Trabajo trabajo = listaTrabajos[position];
         holder.txtViewNombreValor.setText(trabajo.getJobTitle());
-        holder.txtSalarioMaxValor.setText(trabajo.getMaxSalary());
-        holder.txtSalarioMinValor.setText(trabajo.getMinSalary());
+        holder.txtSalarioMaxValor.setText(String.valueOf(trabajo.getMaxSalary()));
+        holder.txtSalarioMinValor.setText(String.valueOf(trabajo.getMinSalary()));
     }
 
     @Override
