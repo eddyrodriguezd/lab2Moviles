@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">lab2Moviles</string>
+
+    <string name="EditButton">Editar</string>
+    <string name="DeleteButton">Borrar</string>
+
+    <string name="trabajoNombre">Nombre</string>
+    <string name="trabajoSalarioMinimo">Salario Mínimo</string>
+    <string name="trabajoSalarioMaximo">Salario Máximo</string>
+    <string name="trabajoDepartamento">Departamento</string>
+    <string name="trabajoAbreviacion">Abreviación</string>
+    <string name="trabajoNombreValor">##########</string>
+    <string name="trabajoSalarioMinimoValor">0</string>
+    <string name="trabajoSalarioMaximoValor">0</string>
+    <string name="trabajoDepartamentoValor">######</string>
+    <string name="trabajoAbreviacionValor">##</string>
+
 </resources>
