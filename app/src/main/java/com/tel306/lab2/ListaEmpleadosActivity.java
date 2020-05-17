@@ -1,7 +1,7 @@
 package com.tel306.lab2;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import static com.tel306.lab2.Util.isInternetAvailable;
 import android.os.Bundle;
 
 public class ListaEmpleadosActivity extends AppCompatActivity {
