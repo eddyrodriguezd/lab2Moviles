@@ -7,19 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tel306.lab2.R;
+import com.tel306.lab2.entidades.Departamento;
 import com.tel306.lab2.entidades.Trabajo;
 
 public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdapter.TrabajoViewHolder> {
 
     Trabajo[] listaTrabajos;
+    Departamento[] listaDepartamentos;
     Context contexto;
 
-    public ListaTrabajosAdapter(Trabajo[] lista, Context c){
+    public ListaTrabajosAdapter(Trabajo[] lista, Departamento[] listaDepas, Context c){
         this.listaTrabajos = lista;
+        this.listaDepartamentos = listaDepas;
         this.contexto = c;
     }
 
@@ -27,14 +29,14 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
         TextView txtViewNombreValor;
         TextView txtSalarioMaxValor;
         TextView txtSalarioMinValor;
-        TextView txtDepartamento;
+        TextView txtDepartamentoValor;
 
         public TrabajoViewHolder(@NonNull View itemView) {
             super(itemView);
             txtViewNombreValor = itemView.findViewById(R.id.txtNombreTrabajoValor);
             txtSalarioMaxValor = itemView.findViewById(R.id.txtSalarioMaxValor);
             txtSalarioMinValor = itemView.findViewById(R.id.txtSalarioMinValor);
-            txtDepartamento = itemView.findViewById(R.id.txtDepartamentoValor);
+            txtDepartamentoValor = itemView.findViewById(R.id.txtDepartamentoValor);
         }
     }
 
@@ -52,7 +54,14 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
         holder.txtViewNombreValor.setText(trabajo.getJobTitle());
         holder.txtSalarioMaxValor.setText(String.valueOf(trabajo.getMaxSalary()));
         holder.txtSalarioMinValor.setText(String.valueOf(trabajo.getMinSalary()));
-        holder.txtDepartamento.setText("");
+
+        for(int i=0; i<listaDepartamentos.length; i++){
+            if(listaDepartamentos[i].getDepartmentShortName().equals(trabajo.getJobId().substring(0,2))){
+                holder.txtDepartamentoValor.setText(listaDepartamentos[i].getDepartmentName());
+                break;
+            }
+        }
+
     }
 
     @Override

@@ -11,16 +11,16 @@
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/EditButton"
         app:layout_constraintEnd_toStartOf="@+id/buttonBorrarTrabajo"
-        app:layout_constraintTop_toBottomOf="@+id/txtAbreviacionValor" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDepartamentoValor" />
 
     <Button
         android:id="@+id/buttonBorrarTrabajo"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/DeleteButton"
         app:layout_constraintBottom_toBottomOf="@+id/buttonEditarTrabajo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,18 +76,6 @@
         app:layout_constraintTop_toBottomOf="@+id/txtSalarioMax" />
 
     <TextView
-        android:id="@+id/txtAbreviacion"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/trabajoAbreviacion"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/txtDepartamento"
-        app:layout_constraintTop_toBottomOf="@+id/txtDepartamento" />
-
-    <TextView
         android:id="@+id/txtNombreTrabajoValor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -132,14 +120,4 @@
         app:layout_constraintStart_toStartOf="@+id/txtSalarioMaxValor"
         app:layout_constraintTop_toBottomOf="@+id/txtSalarioMaxValor" />
 
-    <TextView
-        android:id="@+id/txtAbreviacionValor"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/trabajoAbreviacionValor"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/txtDepartamentoValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtDepartamentoValor" />
 </androidx.constraintlayout.widget.ConstraintLayout>
