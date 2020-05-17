@@ -39,14 +39,12 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_trabajos);
 
         getApiKey(new VolleyCallBack() {
-
             @Override
             public void onSuccess() {
                 getListaTrabajos();
             }
         });
-        //getApiKey();
-        //Log.d("Api-key", "A" + apiKey);
+
     }
 
     @Override
@@ -62,14 +60,11 @@ public class ListaTrabajosActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("Api-key", response);
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(response);
                         apiKey = jsonObject.getString("api-key");
-                        Log.d("Api-key", apiKey);
                         callBack.onSuccess();
-                        //Toast.makeText(ListaTrabajosActivity.this, apiKey, Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

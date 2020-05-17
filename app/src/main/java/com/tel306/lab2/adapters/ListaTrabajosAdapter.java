@@ -27,12 +27,14 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
         TextView txtViewNombreValor;
         TextView txtSalarioMaxValor;
         TextView txtSalarioMinValor;
+        TextView txtDepartamento;
 
         public TrabajoViewHolder(@NonNull View itemView) {
             super(itemView);
             txtViewNombreValor = itemView.findViewById(R.id.txtNombreTrabajoValor);
             txtSalarioMaxValor = itemView.findViewById(R.id.txtSalarioMaxValor);
             txtSalarioMinValor = itemView.findViewById(R.id.txtSalarioMinValor);
+            txtDepartamento = itemView.findViewById(R.id.txtDepartamentoValor);
         }
     }
 
@@ -50,6 +52,7 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
         holder.txtViewNombreValor.setText(trabajo.getJobTitle());
         holder.txtSalarioMaxValor.setText(String.valueOf(trabajo.getMaxSalary()));
         holder.txtSalarioMinValor.setText(String.valueOf(trabajo.getMinSalary()));
+        holder.txtDepartamento.setText("");
     }
 
     @Override
