@@ -36,10 +36,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
     private EditText editTextTrabajoNombre;
     private EditText editTextTrabajoSalarioMin;
     private EditText editTextTrabajoSalarioMax;
-    private EditText editTextTrabajoDepartamento;
     private EditText editTextTrabajoAbreviacion;
-    private TextView txtNuevoTrabajoDepartamento;
-    private TextView txtNuevoTrabajoAbreviacion;
 
     private Spinner sItems;
     private Button buttonAceptar;
@@ -69,23 +66,18 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         editTextTrabajoAbreviacion = findViewById(R.id.editTextTrabajoAbreviacion);
         sItems = findViewById(R.id.spinnerDepartamento);
 
-        if(action.equals("edit")){
+        if (action.equals("edit")) {
             setTitle("Editar Trabajo");
 
             trabajo = (Trabajo) intent.getSerializableExtra("trabajo");
             editTextTrabajoNombre.setText(trabajo.getJobTitle());
             editTextTrabajoSalarioMin.setText(String.valueOf(trabajo.getMinSalary()));
             editTextTrabajoSalarioMax.setText(String.valueOf(trabajo.getMaxSalary()));
-            sItems.setVisibility(View.INVISIBLE);
-            editTextTrabajoAbreviacion.setVisibility(View.INVISIBLE);
-            txtNuevoTrabajoAbreviacion.setVisibility(View.INVISIBLE);
-        }
-        else if (action.equals("new")){
-            setTitle("Nuevo Trabajo");
-            getListaDepartamentos(new VolleyCallBack() {
+            editTextTrabajoAbreviacion.setText(String.valueOf(trabajo.getJobId()));
+           getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
-                    for(int i=0; i<listaDepartamentos.length; i++){
+                    for (int i = 0; i < listaDepartamentos.length; i++) {
                         spinnerArray.add(listaDepartamentos[i].getDepartmentName());
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(CrearEditarTrabajoActivity.this,
@@ -94,6 +86,24 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     sItems.setAdapter(adapter);
                 }
             });
+
+        } else if (action.equals("new")) {
+            setTitle("Nuevo Trabajo");
+
+            //SPINNER INNECESARIO
+            /*
+            getListaDepartamentos(new VolleyCallBack() {
+                @Override
+                public void onSuccess() {
+                    for (int i = 0; i < listaDepartamentos.length; i++) {
+                        spinnerArray.add(listaDepartamentos[i].getDepartmentName());
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(CrearEditarTrabajoActivity.this,
+                            android.R.layout.simple_spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    sItems.setAdapter(adapter);
+                }
+            });*/
         }
 
         buttonAceptar = findViewById(R.id.buttonAceptar);
@@ -104,10 +114,10 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("Crear", "clicked");
                 if (!editTextTrabajoNombre.getText().toString().isEmpty() && !editTextTrabajoSalarioMin.getText().toString().isEmpty()
-                        && !editTextTrabajoSalarioMax.getText().toString().isEmpty()){
+                        && !editTextTrabajoSalarioMax.getText().toString().isEmpty()) {
 
-                    if(action.equals("new")){
-                        if(editTextTrabajoAbreviacion.getText().toString().isEmpty()){
+                    if (action.equals("new")) {
+                        if (editTextTrabajoAbreviacion.getText().toString().isEmpty()) {
                             return;
                         }
                     }
@@ -125,8 +135,8 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         });
     }
 
-    public void guardarActualizarTrabajo(){
-        if (isInternetAvailable(this)){
+    public void guardarActualizarTrabajo() {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/trabajo";
@@ -156,11 +166,10 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     params.put("minSalary", editTextTrabajoSalarioMin.getText().toString());
                     params.put("maxSalary", editTextTrabajoSalarioMax.getText().toString());
 
-                    if(action.equals("edit")){
+                    if (action.equals("edit")) {
                         params.put("update", "true");
                         params.put("jobId", trabajo.getJobId());
-                    }
-                    else if (action.equals("new")){
+                    } else if (action.equals("new")) {
                         params.put("jobId", listaDepartamentos[sItems.getSelectedItemPosition()].getDepartmentShortName() + "_" + editTextTrabajoAbreviacion.getText().toString());
                     }
                     return params;
@@ -170,8 +179,8 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         }
     }
 
-    public void getListaDepartamentos(final VolleyCallBack callBack){
-        if (isInternetAvailable(this)){
+    public void getListaDepartamentos(final VolleyCallBack callBack) {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             Log.d("Crear", "Apikey: " + apiKey);

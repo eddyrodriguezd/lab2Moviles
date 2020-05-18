@@ -7,24 +7,25 @@
     android:layout_height="wrap_content">
 
     <Button
+        android:id="@+id/buttonBorrarEmpleado"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/DeleteButton"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonEditarEmpleado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonEditarEmpleado"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/buttonEditarEmpleado"
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="44dp"
         android:text="@string/EditButton"
         app:layout_constraintEnd_toStartOf="@+id/buttonBorrarEmpleado"
         app:layout_constraintTop_toBottomOf="@+id/txtDepartamentoValor" />
-
-    <Button
-        android:id="@+id/buttonBorrarEmpleado"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="@string/DeleteButton"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonEditarEmpleado"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonEditarEmpleado" />
 
     <TextView
         android:id="@+id/txtNombreEmpleado"
@@ -104,7 +105,7 @@
         android:id="@+id/txtDepartamento"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:text="@string/empleadoDepartamento"
         android:textAlignment="viewStart"
@@ -112,40 +113,6 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSalario" />
-
-    <TextView
-        android:id="@+id/txtNombreEmpleadoValor"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/trabajoNombreValor"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/txtApellido"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtViewApellidoValor"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/empleadoApellidoValor"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/txtNombreEmpleadoValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreEmpleadoValor"/>
-
-    <TextView
-        android:id="@+id/txtEmailValor"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/empleadoEmailValor"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/txtViewApellidoValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewApellidoValor"/>
 
     <TextView
         android:id="@+id/txtNumeroValor"
@@ -156,18 +123,7 @@
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/txtEmailValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailValor"/>
-
-    <TextView
-        android:id="@+id/txtTituloTrabajoValor"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/empleadoTituloTrabajoValor"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/txtNumeroValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtNumeroValor"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailValor" />
 
     <TextView
         android:id="@+id/txtSalarioValor"
@@ -178,7 +134,41 @@
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/txtTituloTrabajoValor"
-        app:layout_constraintTop_toBottomOf="@+id/txtTituloTrabajoValor"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtTituloTrabajoValor" />
+
+    <TextView
+        android:id="@+id/txtNombreEmpleadoValor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/trabajoNombreValor"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/txtDepartamento"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEmailValor"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/empleadoEmailValor"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="@+id/txtViewApellidoValor"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewApellidoValor" />
+
+    <TextView
+        android:id="@+id/txtViewApellidoValor"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/empleadoApellidoValor"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="@+id/txtNombreEmpleadoValor"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreEmpleadoValor" />
 
     <TextView
         android:id="@+id/txtDepartamentoValor"
@@ -190,4 +180,16 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/txtSalarioValor"
         app:layout_constraintTop_toBottomOf="@+id/txtSalarioValor" />
+
+    <TextView
+        android:id="@+id/txtTituloTrabajoValor"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/empleadoTituloTrabajoValor"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="@+id/txtNumeroValor"
+        app:layout_constraintTop_toBottomOf="@+id/txtNumeroValor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

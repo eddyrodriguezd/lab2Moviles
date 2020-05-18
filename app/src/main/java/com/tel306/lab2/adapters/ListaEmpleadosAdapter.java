@@ -24,7 +24,7 @@ public class ListaEmpleadosAdapter extends RecyclerView.Adapter<ListaEmpleadosAd
     Empleado[] listaEmpleados;
     Context contexto;
 
-    public ListaEmpleadosAdapter(Empleado[] lista, Context c, ClickListener listener) {
+    public ListaEmpleadosAdapter(Empleado[] lista, Context c, ClickListener clickListener) {
         this.listaEmpleados = lista;
         this.contexto = c;
         this.listener = listener;

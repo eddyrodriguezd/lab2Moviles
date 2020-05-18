@@ -4,11 +4,11 @@
     <string name="EditButton">Editar</string>
     <string name="DeleteButton">Borrar</string>
 
-    <string name="trabajoNombre">Nombre</string>
+    <string name="trabajoNombre">Titulo</string>
     <string name="trabajoSalarioMinimo">Salario Mínimo</string>
     <string name="trabajoSalarioMaximo">Salario Máximo</string>
     <string name="trabajoDepartamento">Departamento</string>
-    <string name="trabajoAbreviacion">Abreviación</string>
+    <string name="trabajoAbreviacion">Id trabajo</string>
     <string name="trabajoNombreValor">##########</string>
     <string name="trabajoSalarioMinimoValor">0</string>
     <string name="trabajoSalarioMaximoValor">0</string>
@@ -18,12 +18,20 @@
     <string name="botonAceptar">Aceptar</string>
     <string name="botonCancelar">Cancelar</string>
 
+
+
+
+    <string name="empleadoId">Id empleado</string>
     <string name="empleadoNombre">Nombre</string>
     <string name="empleadoApellido">Apellido</string>
     <string name="empleadoEmail">Email</string>
     <string name="empleadoNumero">Número</string>
     <string name="empleadoTituloTrabajo">Trabajo</string>
     <string name="empleadoSalario">Salario</string>
+
+    <string name="empleadoComision">Pct. de Comision</string>
+    <string name="empleadoJefe">Jefe</string>
+
     <string name="empleadoDepartamento">Departamento</string>
     <string name="empleadoApellidoValor">#######</string>
     <string name="empleadoEmailValor">######</string>
