@@ -2,12 +2,14 @@ package com.tel306.lab2;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tel306.lab2.Util.isInternetAvailable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,8 +41,8 @@ import java.util.Map;
 
 public class ListaTrabajosActivity extends AppCompatActivity {
 
-    private static final int CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 1;
-    private static final int EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 2;
+    private static final int CREAR_TRABAJO_ACTIVITY_REQUEST_CODE = 1;
+    private static final int EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE = 2;
 
     private String apiKey;
     private Departamento[] listaDepartamentos;
@@ -91,7 +93,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CrearEditarTrabajoActivity.class);
                 intent.putExtra("action", "new");
                 intent.putExtra("apikey", apiKey);
-                startActivityForResult(intent, CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, CREAR_TRABAJO_ACTIVITY_REQUEST_CODE);
         }
 
         return super.onOptionsItemSelected(item);
@@ -144,17 +146,30 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
                             if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
                                 if (action) { //ELIMINAR
+                                    Toast.makeText(ListaTrabajosActivity.this, "Aquí falta ELIMINAR TRABAJO", Toast.LENGTH_SHORT).show();
 
                                 } else { //EDITAR
                                     Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
                                     intent.putExtra("action", "edit");
                                     intent.putExtra("apikey", apiKey);
                                     intent.putExtra("trabajo", listaTrabajos[position]);
-                                    startActivityForResult(intent, EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                                    startActivityForResult(intent, EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE);
                                 }
                             } else {
-                                Toast.makeText(ListaTrabajosActivity.this, "No se pueden hacer modificaciones en un trabajo por defecto", Toast.LENGTH_SHORT).show();
-                                //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
+
+                                Log.d("Accion", action + ":Trabajo no creado por nosotros");
+
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaTrabajosActivity.this);
+                                builder1.setMessage("No se puede modificar ni eliminar trabajos no creados por el usuario");
+                                builder1.setCancelable(true);
+                                builder1.setNeutralButton(android.R.string.ok,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
                             }
 
 
@@ -223,7 +238,14 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
         Log.d("Crear", "onActivityResult");
 
-        if(requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+        if(requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+
+            if(requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                Toast.makeText(ListaTrabajosActivity.this, "Trabajo creado exitosamente", Toast.LENGTH_SHORT).show();
+            }
+            else if (requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                Toast.makeText(ListaTrabajosActivity.this, "Trabajo modificado exitosamente", Toast.LENGTH_SHORT).show();
+            }
 
             if(resultCode  == RESULT_OK){ //Refresca la pantalla
                 Log.d("Crear", "Result OK");
