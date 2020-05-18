@@ -146,7 +146,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
                             if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
                                 if (action) { //ELIMINAR
-                                    Toast.makeText(ListaTrabajosActivity.this, "Aquí falta ELIMINAR TRABAJO", Toast.LENGTH_SHORT).show();
+                                    deleteTrabajo(listaTrabajos[position].getJobId());
 
                                 } else { //EDITAR
                                     Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
@@ -156,9 +156,6 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                                     startActivityForResult(intent, EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE);
                                 }
                             } else {
-
-                                Log.d("Accion", action + ":Trabajo no creado por nosotros");
-
                                 AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaTrabajosActivity.this);
                                 builder1.setMessage("No se puede modificar ni eliminar trabajos no creados por el usuario");
                                 builder1.setCancelable(true);
@@ -232,22 +229,51 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         }
     }
 
+    public void deleteTrabajo(String idTrabajo){
+        if (isInternetAvailable(this)) {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id=" + idTrabajo;
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("Eliminar", response);
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Eliminar", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("api-key", apiKey);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("Crear", "onActivityResult");
-        
+
         if(requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
 
-            if(requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
-                Toast.makeText(ListaTrabajosActivity.this, "Trabajo creado exitosamente", Toast.LENGTH_SHORT).show();
-            }
-            else if (requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE){
-                Toast.makeText(ListaTrabajosActivity.this, "Trabajo modificado exitosamente", Toast.LENGTH_SHORT).show();
-            }
-
             if (resultCode == RESULT_OK) { //Refresca la pantalla
+
+                if(requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo creado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+                else if (requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo modificado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+
                 Log.d("Crear", "Result OK");
                 getListaDepartamentos(new VolleyCallBack() {
                     @Override
