@@ -237,7 +237,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("Crear", "onActivityResult");
-
+        
         if(requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
 
             if(requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
@@ -247,7 +247,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 Toast.makeText(ListaTrabajosActivity.this, "Trabajo modificado exitosamente", Toast.LENGTH_SHORT).show();
             }
 
-            if(resultCode  == RESULT_OK){ //Refresca la pantalla
+            if (resultCode == RESULT_OK) { //Refresca la pantalla
                 Log.d("Crear", "Result OK");
                 getListaDepartamentos(new VolleyCallBack() {
                     @Override

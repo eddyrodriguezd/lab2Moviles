@@ -49,6 +49,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
     private Button EmpleadoButtonAceptar;
     private Button EmpleadoButtonCancelar;
+    private int num;
 
     private EditText editTextEmpleadoId;
     private EditText editTextEmpleadoNombre;
@@ -290,11 +291,17 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                         params.put("employeeId", empleado.getEmployeeId());
 
                     } else if (action.equals("new")) {
-                        //TODO verificacion de no cambiar el ID de empleado. oops.
+
+                        try {
+                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1 ;
+                            params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                        }catch (Exception e){}
+
+
                         params.put("employeeId", editTextEmpleadoId.toString());
                     }
 
-                    params.put("jobId", listaEmpleados[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId().getJobId());
+                    params.put("jobId", listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
 
                     params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
 
