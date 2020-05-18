@@ -1,12 +1,14 @@
 package com.tel306.lab2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tel306.lab2.Util.isInternetAvailable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -125,7 +127,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    //Revisar esta parte si falta algo
+                    //REVISAR ESTA PARTE SI FALTA ALGO QUE EDITAR
                     Log.d("ListaEmpleados", response);
                     Gson gson = new Gson();
                     DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
@@ -150,8 +152,17 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             } else {
-                                Toast.makeText(ListaEmpleadosActivity.this, "No se pueden hacer modificaciones en un empleado por defecto", Toast.LENGTH_SHORT).show();
-                                //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaEmpleadosActivity.this);
+                                builder1.setMessage("No se puede modificar ni eliminar empleados no creados por el usuario");
+                                builder1.setCancelable(true);
+                                builder1.setNeutralButton(android.R.string.ok,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
                             }
 
 

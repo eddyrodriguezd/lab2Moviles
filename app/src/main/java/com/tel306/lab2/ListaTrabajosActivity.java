@@ -2,12 +2,14 @@ package com.tel306.lab2;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tel306.lab2.Util.isInternetAvailable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,8 +41,8 @@ import java.util.Map;
 
 public class ListaTrabajosActivity extends AppCompatActivity {
 
-    private static final int CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 1;
-    private static final int EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 2;
+    private static final int CREAR_TRABAJO_ACTIVITY_REQUEST_CODE = 1;
+    private static final int EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE = 2;
 
     private String apiKey;
     private Departamento[] listaDepartamentos;
@@ -91,7 +93,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CrearEditarTrabajoActivity.class);
                 intent.putExtra("action", "new");
                 intent.putExtra("apikey", apiKey);
-                startActivityForResult(intent, CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, CREAR_TRABAJO_ACTIVITY_REQUEST_CODE);
         }
 
         return super.onOptionsItemSelected(item);
@@ -144,17 +146,27 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
                             if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
                                 if (action) { //ELIMINAR
+                                    deleteTrabajo(listaTrabajos[position].getJobId());
 
                                 } else { //EDITAR
                                     Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
                                     intent.putExtra("action", "edit");
                                     intent.putExtra("apikey", apiKey);
                                     intent.putExtra("trabajo", listaTrabajos[position]);
-                                    startActivityForResult(intent, EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                                    startActivityForResult(intent, EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE);
                                 }
                             } else {
-                                Toast.makeText(ListaTrabajosActivity.this, "No se pueden hacer modificaciones en un trabajo por defecto", Toast.LENGTH_SHORT).show();
-                                //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaTrabajosActivity.this);
+                                builder1.setMessage("No se puede modificar ni eliminar trabajos no creados por el usuario");
+                                builder1.setCancelable(true);
+                                builder1.setNeutralButton(android.R.string.ok,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
                             }
 
 
@@ -217,15 +229,51 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         }
     }
 
+    public void deleteTrabajo(String idTrabajo){
+        if (isInternetAvailable(this)) {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id=" + idTrabajo;
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("Eliminar", response);
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Eliminar", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("api-key", apiKey);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("Crear", "onActivityResult");
 
-        if (requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE || requestCode == CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE) {
+        if(requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
 
             if (resultCode == RESULT_OK) { //Refresca la pantalla
+
+                if(requestCode==CREAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo creado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+                else if (requestCode == EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaTrabajosActivity.this, "Trabajo modificado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+
                 Log.d("Crear", "Result OK");
                 getListaDepartamentos(new VolleyCallBack() {
                     @Override
@@ -236,5 +284,39 @@ public class ListaTrabajosActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void borrarTrabajo(){
+        if (isInternetAvailable(this)){
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url ="http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response);
+                        String estado = jsonObject.getString("estado");
+                        Toast.makeText(ListaTrabajosActivity.this, estado, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Api-key", error.getLocalizedMessage());
+                }
+            }){
+                @Override
+                public Map<String,String> getHeaders() throws AuthFailureError{
+                    Map <String,String> params = new HashMap<>();
+                    params.put("api-key",apiKey);
+                    return params;
+                }
+            };
+        }
+
     }
 }
