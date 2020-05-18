@@ -1,12 +1,17 @@
 package com.tel306.lab2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tel306.lab2.Util.isInternetAvailable;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tel306.lab2.adapters.ListaTrabajosAdapter;
+import com.tel306.lab2.entidades.Departamento;
+import com.tel306.lab2.entidades.DtoDepartamento;
 import com.tel306.lab2.entidades.DtoTrabajo;
 import com.tel306.lab2.entidades.Trabajo;
 
@@ -32,16 +39,25 @@ import java.util.Map;
 public class ListaTrabajosActivity extends AppCompatActivity {
 
     private String apiKey;
+    private Departamento[] listaDepartamentos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_trabajos);
+        setTitle("Trabajos");
 
         getApiKey(new VolleyCallBack() {
             @Override
             public void onSuccess() {
-                getListaTrabajos();
+
+                getListaDepartamentos(new VolleyCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        getListaTrabajos();
+                    }
+                });
+
             }
         });
 
@@ -50,6 +66,27 @@ public class ListaTrabajosActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch(item.getItemId()){
+
+            case R.id.itemChangeList:
+                startActivity(new Intent(this, ListaEmpleadosActivity.class));
+                finish();
+            case R.id.itemAdd:
+                Toast.makeText(this, "Agregar", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void getApiKey(final VolleyCallBack callBack){
@@ -93,7 +130,17 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                     DtoTrabajo dtoTrabajo = gson.fromJson(response, DtoTrabajo.class);
                     Trabajo[] listaTrabajos = dtoTrabajo.getTrabajos();
 
-                    ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, ListaTrabajosActivity.this);
+                    ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, listaDepartamentos, ListaTrabajosActivity.this, new ClickListener() {
+                        @Override
+                        public void onPositionClicked(int position) {
+
+                        }
+
+                        @Override
+                        public void onLongClicked(int position) {
+
+                        }
+                    });
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewListaTrabajos);
                     recyclerView.setAdapter(listaTrabajosAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(ListaTrabajosActivity.this));
@@ -113,6 +160,36 @@ public class ListaTrabajosActivity extends AppCompatActivity {
             };
             requestQueue.add(stringRequest);
         }
+    }
 
+    public void getListaDepartamentos(final VolleyCallBack callBack){
+        if (isInternetAvailable(this)){
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("ListaDepartamentos", response);
+                    Gson gson = new Gson();
+                    DtoDepartamento dtoDepartamento = gson.fromJson(response, DtoDepartamento.class);
+                    listaDepartamentos = dtoDepartamento.getDepartamentos();
+                    callBack.onSuccess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("ListaTrabajos", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("api-key", apiKey);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
     }
 }
