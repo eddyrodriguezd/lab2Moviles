@@ -1,6 +1,8 @@
 package com.tel306.lab2.entidades;
 
-public class Empleado {
+import java.io.Serializable;
+
+public class Empleado implements Serializable {
     private String employeeId;
     private String firstName;
     private String lastName;

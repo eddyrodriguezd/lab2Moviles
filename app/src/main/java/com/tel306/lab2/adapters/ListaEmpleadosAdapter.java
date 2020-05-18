@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tel306.lab2.ClickListener;
 import com.tel306.lab2.R;
 import com.tel306.lab2.entidades.Empleado;
 
@@ -18,7 +19,7 @@ public class ListaEmpleadosAdapter extends RecyclerView.Adapter<ListaEmpleadosAd
     Empleado[] listaEmpleados;
     Context contexto;
 
-    public ListaEmpleadosAdapter(Empleado[] lista, Context c) {
+    public ListaEmpleadosAdapter(Empleado[] lista, Context c, ClickListener clickListener) {
         this.listaEmpleados = lista;
         this.contexto = c;
     }

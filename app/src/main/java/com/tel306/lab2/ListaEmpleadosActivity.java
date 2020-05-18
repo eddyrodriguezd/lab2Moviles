@@ -129,9 +129,66 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                     Log.d("ListaEmpleados", response);
                     Gson gson = new Gson();
                     DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
-                    Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
+                    final Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
 
-                    ListaEmpleadosAdapter listaEmpleadosAdapter = new ListaEmpleadosAdapter(listaEmpleados, ListaEmpleadosActivity.this);
+                    ListaEmpleadosAdapter listaEmpleadosAdapter = new ListaEmpleadosAdapter(listaEmpleados, ListaEmpleadosActivity.this, new ClickListener() {
+
+                        @Override
+                        public void onPositionClicked(boolean action, int position) {
+
+                            if (listaEmpleados[position].getCreatedBy() != null) { //Fue creado por nosotros
+                                if (action) { //ELIMINAR
+
+                                } else { //EDITAR
+                                    Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
+                                    intent.putExtra("action", "edit");
+                                    intent.putExtra("apikey", apiKey);
+                                    intent.putExtra("empleado", listaEmpleados[position]);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                Toast.makeText(ListaEmpleadosActivity.this, "No segaa", Toast.LENGTH_SHORT).show();
+                                //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onLongClicked(int position) {
+
+                        }
+
+
+
+
+
+
+
+                    }
+                          //finish click listener
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            );
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewListaEmpleados);
                     recyclerView.setAdapter(listaEmpleadosAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(ListaEmpleadosActivity.this));
