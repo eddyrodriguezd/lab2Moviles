@@ -127,7 +127,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    //Revisar esta parte si falta algo
+                    //REVISAR ESTA PARTE SI FALTA ALGO QUE EDITAR
                     Log.d("ListaEmpleados", response);
                     Gson gson = new Gson();
                     DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
