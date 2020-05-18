@@ -6,4 +6,170 @@
     android:layout_height="match_parent"
     tools:context=".CrearEditarEmpleadoActivity">
 
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/empleadoNombre"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/empleadoNombre" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoApellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoApellido"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoNombre"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoNombre"
+        tools:text="@string/empleadoApellido" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoEmail"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoApellido"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoApellido"
+        tools:text="@string/empleadoEmail" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoCelular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoNumero"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoEmail"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoEmail"
+        tools:text="@string/empleadoEmail" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoTrabajo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoTituloTrabajo"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoCelular"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoCelular" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoSalario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoSalario"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoTrabajo"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoTrabajo"
+        tools:text="@string/empleadoSalario" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoComision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoComision"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoSalario"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoSalario"
+        tools:text="@string/empleadoComision" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoJefe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoJefe"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoComision"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoComision" />
+
+    <TextView
+        android:id="@+id/txtNuevoEmpleadoDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/empleadoDepartamento"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoEmpleadoJefe"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoEmpleadoJefe"
+        tools:text="@string/empleadoDepartamento" />
+
+    <EditText
+        android:id="@+id/editTextEmpleadoNombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoEmpleadoNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoEmpleadoApellido"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoEmpleadoNombre" />
+
+    <EditText
+        android:id="@+id/editTextEmpleadoApellido"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoEmpleadoApellido"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoEmpleadoEmail"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoEmpleadoApellido" />
+
+    <Button
+        android:id="@+id/buttonAceptar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/botonAceptar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/botonCancelar"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonAceptar"
+        app:layout_constraintVertical_bias="0.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

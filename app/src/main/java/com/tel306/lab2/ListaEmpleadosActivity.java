@@ -10,6 +10,7 @@ import static com.tel306.lab2.Util.isInternetAvailable;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tel306.lab2.adapters.ListaEmpleadosAdapter;
+import com.tel306.lab2.entidades.Departamento;
+import com.tel306.lab2.entidades.DtoDepartamento;
 import com.tel306.lab2.entidades.DtoEmpleado;
 import com.tel306.lab2.entidades.Empleado;
 
@@ -41,12 +44,14 @@ import android.widget.Toast;
 public class ListaEmpleadosActivity extends AppCompatActivity {
 
     private String apiKey;
+    private Empleado[] listaEmpleados;
+    private Departamento[] listaDepartamentos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_empleados);
-
+        setTitle("Empleados");
 
         getApiKey(new VolleyCallBack() {
             @Override
@@ -102,9 +107,36 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                     Log.d("ListaEmpleados", response);
                     Gson gson = new Gson();
                     DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
-                    Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
+                    final Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
 
-                    ListaEmpleadosAdapter listaEmpleadosAdapter = new ListaEmpleadosAdapter(listaEmpleados, ListaEmpleadosActivity.this);
+                    ListaEmpleadosAdapter listaEmpleadosAdapter = new ListaEmpleadosAdapter(listaEmpleados, ListaEmpleadosActivity.this,new ClickListener(){
+
+                        @Override
+                        public void onPositionClicked(boolean action, int position) {
+
+                            if (listaEmpleados[position].getCreatedBy() != null){
+                                if (action){ //ELIMINAR
+
+                                }
+                                else{ //EDITAR
+                                    Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
+                                    intent.putExtra("action", "edit");
+                                    intent.putExtra("apikey", apiKey);
+                                    intent.putExtra("empleado", (Parcelable) listaEmpleados[position]);
+                                    startActivity(intent);
+                                }
+                            }
+                            else{
+                                Toast.makeText(ListaEmpleadosActivity.this, "No se pueden hacer modificaciones en un empleado por defecto", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onLongClicked(int position) {
+
+                        }
+                    });
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewListaEmpleados);
                     recyclerView.setAdapter(listaEmpleadosAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(ListaEmpleadosActivity.this));
@@ -129,6 +161,37 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
         setTitle("Empleados");
     }
 
+    public void getListaDepartamentos(final VolleyCallBack callBack){
+        if (isInternetAvailable(this)){
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("ListaDepartamentos", response);
+                    Gson gson = new Gson();
+                    DtoDepartamento dtoDepartamento = gson.fromJson(response, DtoDepartamento.class);
+                    listaDepartamentos = dtoDepartamento.getDepartamentos();
+                    callBack.onSuccess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("ListaTrabajos", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("api-key", apiKey);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
@@ -144,7 +207,10 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ListaTrabajosActivity.class));
                 finish();
             case R.id.itemAdd:
-                Toast.makeText(this, "Agregar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CrearEditarEmpleadoActivity.class);
+                intent.putExtra("action", "new");
+                intent.putExtra("apikey", apiKey);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -31,5 +31,7 @@
     <string name="empleadoTituloTrabajoValor">######</string>
     <string name="empleadoSalarioValor">000</string>
     <string name="empleadoDepartamentoValor">######</string>
+    <string name="empleadoComision">Comisión</string>
+    <string name="empleadoJefe">Jefe</string>
 
 </resources>
