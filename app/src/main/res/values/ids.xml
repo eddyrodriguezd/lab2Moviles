@@ -6,12 +6,12 @@
     <item name="txtNumeroValor" type="id" />
     <item name="txtTituloTrabajoValor" type="id" />
     <item name="txtSalarioValor" type="id" />
-    <item name="editTextEmpleadoNombre" type="id">######</item>
-    <item name="editTextEmpleadoApellido" type="id">######</item>
-    <item name="editTextEmpleadoEmail" type="id">######</item>
-    <item name="editTextEmpleadoNumero" type="id">######</item>
-    <item name="editTextEmpleadoSalario" type="id">00000</item>
-    <item name="editTextEmpleadoComision" type="id">0000</item>
-    <item name="spinnerTrabajo" type="id">######</item>
-    <item name="spinnerJefe" type="id">#####</item>
-</resources>
+    <item name="editTextEmpleadoNombre" type="id"/>
+    <item name="editTextEmpleadoApellido" type="id"/>
+    <item name="editTextEmpleadoEmail" type="id"/>
+    <item name="editTextEmpleadoNumero" type="id"/>
+    <item name="editTextEmpleadoSalario" type="id"/>
+    <item name="editTextEmpleadoComision" type="id"/>
+    <item name="spinnerTrabajo" type="id"/>
+    <item name="spinnerJefe" type="id"/>
+    </resources>
