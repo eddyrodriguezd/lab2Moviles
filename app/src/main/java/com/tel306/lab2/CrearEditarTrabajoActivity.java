@@ -78,7 +78,6 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             editTextTrabajoSalarioMax.setText(String.valueOf(trabajo.getMaxSalary()));
             sItems.setVisibility(View.INVISIBLE);
             editTextTrabajoAbreviacion.setVisibility(View.INVISIBLE);
-            txtNuevoTrabajoDepartamento.setVisibility(View.INVISIBLE);
             txtNuevoTrabajoAbreviacion.setVisibility(View.INVISIBLE);
         }
         else if (action.equals("new")){
@@ -86,12 +85,9 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
-                    Log.d("Crear", "Terminó la búsqueda de departamentos");
                     for(int i=0; i<listaDepartamentos.length; i++){
-                        Log.d("Crear", "Uno más al spinner: " + listaDepartamentos[i].getDepartmentName());
                         spinnerArray.add(listaDepartamentos[i].getDepartmentName());
                     }
-                    Log.d("Crear", "Acabó el for para poblar el spinner");
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(CrearEditarTrabajoActivity.this,
                             android.R.layout.simple_spinner_item, spinnerArray);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -111,7 +107,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                         && !editTextTrabajoSalarioMax.getText().toString().isEmpty()){
 
                     if(action.equals("new")){
-                        if(editTextTrabajoDepartamento.getText().toString().isEmpty() || editTextTrabajoAbreviacion.getText().toString().isEmpty()){
+                        if(editTextTrabajoAbreviacion.getText().toString().isEmpty()){
                             return;
                         }
                     }
@@ -137,6 +133,8 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("Crear", response);
+                    finish();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -157,12 +155,13 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     params.put("jobTitle", editTextTrabajoNombre.getText().toString());
                     params.put("minSalary", editTextTrabajoSalarioMin.getText().toString());
                     params.put("maxSalary", editTextTrabajoSalarioMax.getText().toString());
+
                     if(action.equals("edit")){
                         params.put("update", "true");
                         params.put("jobId", trabajo.getJobId());
                     }
                     else if (action.equals("new")){
-                        params.put("jobId", listaDepartamentos[sItems.getSelectedItemPosition()] + "_" + editTextTrabajoAbreviacion.getText().toString());
+                        params.put("jobId", listaDepartamentos[sItems.getSelectedItemPosition()].getDepartmentShortName() + "_" + editTextTrabajoAbreviacion.getText().toString());
                     }
                     return params;
                 }
