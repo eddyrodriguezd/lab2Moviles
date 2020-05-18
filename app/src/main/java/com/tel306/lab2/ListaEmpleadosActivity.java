@@ -46,6 +46,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_empleados);
+        setTitle("Empleados");
 
 
         getApiKey(new VolleyCallBack() {
@@ -60,6 +61,32 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.itemChangeList:
+                startActivity(new Intent(this, ListaTrabajosActivity.class));
+                finish();
+                break;
+            case R.id.itemAdd:
+                Intent intent = new Intent(this, CrearEditarEmpleadoActivity.class);
+                intent.putExtra("action", "new");
+                intent.putExtra("apikey", apiKey);
+                startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+
     }
 
     public void getApiKey(final VolleyCallBack callBack) {
@@ -126,32 +153,8 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
         }
 
 
-        setTitle("Empleados");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_app_bar, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-
-            case R.id.itemChangeList:
-                startActivity(new Intent(this, ListaTrabajosActivity.class));
-                finish();
-                break;
-            case R.id.itemAdd:
-                Intent intent = new Intent(this, CrearEditarEmpleadoActivity.class);
-                intent.putExtra("action", "new");
-                intent.putExtra("apikey", apiKey);
-                startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
 }

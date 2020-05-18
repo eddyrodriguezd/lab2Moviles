@@ -18,12 +18,20 @@
     <string name="botonAceptar">Aceptar</string>
     <string name="botonCancelar">Cancelar</string>
 
+
+
+
+    <string name="empleadoId">Id empleado</string>
     <string name="empleadoNombre">Nombre</string>
     <string name="empleadoApellido">Apellido</string>
     <string name="empleadoEmail">Email</string>
     <string name="empleadoNumero">Número</string>
     <string name="empleadoTituloTrabajo">Trabajo</string>
     <string name="empleadoSalario">Salario</string>
+
+    <string name="empleadoComision">Pct. de Comision</string>
+    <string name="empleadoJefe">Jefe</string>
+
     <string name="empleadoDepartamento">Departamento</string>
     <string name="empleadoApellidoValor">#######</string>
     <string name="empleadoEmailValor">######</string>
