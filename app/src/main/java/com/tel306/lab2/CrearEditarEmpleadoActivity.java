@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -26,6 +27,9 @@ import com.tel306.lab2.entidades.DtoTrabajo;
 import com.tel306.lab2.entidades.Empleado;
 import com.tel306.lab2.entidades.Gerente;
 import com.tel306.lab2.entidades.Trabajo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -228,8 +232,6 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 Log.d("Crear", "clicked");
                 if (!editTextEmpleadoApellido.getText().toString().isEmpty() && !editTextEmpleadoCorreo.getText().toString().isEmpty()) {
 
-
-
                     guardarActualizarEmpleado();
                 }
             }
@@ -252,7 +254,124 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
-            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+
+            Log.d("Crear", "guardarActualizarEmpleado");
+
+            //JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
+            try{
+                jsonObject.put("firstName", editTextEmpleadoNombre.getText().toString());
+                jsonObject.put("lastName", editTextEmpleadoApellido.getText().toString());
+                jsonObject.put("email", editTextEmpleadoCorreo.getText().toString());
+                jsonObject.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                jsonObject.put("salary", Double.parseDouble(editTextEmpleadoSalario.getText().toString()));
+                jsonObject.put("commissionPct", Double.parseDouble(editTextEmpleadoComision.getText().toString()));
+
+                if (action.equals("edit")) {
+                    jsonObject.put("update", "true");
+                    jsonObject.put("employeeId", empleado.getEmployeeId());
+
+                } else if (action.equals("new")) {
+
+                    try {
+                        num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
+                        jsonObject.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                    }catch (Exception e){}
+
+                }
+                jsonObject.put("jobId",listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]);
+
+                Gerente gerente = new Gerente();
+                gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
+                gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+                gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
+                gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+                jsonObject.put("managerId", gerente);
+
+                jsonObject.put("departmentId", listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]);
+
+                Log.d("Crear", jsonObject.toString());
+
+            }catch(Exception e){
+                Log.d("Crear", e.getLocalizedMessage());
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("Crear", response.toString());
+                    Intent returnIntent  = new Intent();
+                    setResult(CrearEditarEmpleadoActivity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Crear", Log.getStackTraceString(error));
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("api-key", apiKey);
+                    Log.d("Crear", apiKey);
+                    return headers;
+                }
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("firstName", editTextEmpleadoNombre.getText().toString());
+                    Log.d("Crear", editTextEmpleadoNombre.getText().toString());
+                    params.put("lastName", editTextEmpleadoApellido.getText().toString());
+                    params.put("email", editTextEmpleadoCorreo.getText().toString());
+                    params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                    params.put("salary", editTextEmpleadoSalario.getText().toString());
+                    params.put("commissionPct", editTextEmpleadoComision.getText().toString());
+
+                    Log.d("Crear", editTextEmpleadoApellido.getText().toString());
+                    Log.d("Crear", editTextEmpleadoCorreo.getText().toString());
+                    Log.d("Crear", editTextEmpleadoNumero.getText().toString());
+                    Log.d("Crear", editTextEmpleadoSalario.getText().toString());
+                    Log.d("Crear", editTextEmpleadoComision.getText().toString());
+
+                    if (action.equals("edit")) {
+                        params.put("update", "true");
+                        params.put("employeeId", empleado.getEmployeeId());
+
+                    } else if (action.equals("new")) {
+
+                        try {
+                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
+                            params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                            Log.d("Crear",num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                        }catch (Exception e){}
+
+                    }
+                    Gson gson = new Gson();
+                    params.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]) );
+                    Log.d("Crear",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
+
+
+                    Gerente gerente = new Gerente();
+                    gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
+                    gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+                    gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
+                    gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+                    params.put("managerId", gson.toJson(gerente));
+                    Log.d("Crear",gson.toJson(gerente));
+
+                    params.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                    Log.d("Crear",gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+
+                    Log.d("Crear", params.toString());
+
+                    return params;
+                }
+            };
+
+            requestQueue.add(jsonObjectRequest);
+            /*StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Intent returnIntent  = new Intent();
@@ -323,7 +442,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     return params;
                 }
             };
-            requestQueue.add(stringRequest);
+            requestQueue.add(stringRequest);*/
         }
     }
 
