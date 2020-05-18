@@ -62,8 +62,8 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    public void getApiKey(final VolleyCallBack callBack){
-        if (isInternetAvailable(this)){
+    public void getApiKey(final VolleyCallBack callBack) {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/getApiKey?groupKey=HTUxbtfKpEb2GJ3Y2d9e";
@@ -90,8 +90,8 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
 
     }
 
-    public void getListaEmpleados(){
-        if (isInternetAvailable(this)){
+    public void getListaEmpleados() {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/empleados";
@@ -138,13 +138,17 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.itemChangeList:
                 startActivity(new Intent(this, ListaTrabajosActivity.class));
                 finish();
+                break;
             case R.id.itemAdd:
-                Toast.makeText(this, "Agregar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CrearEditarEmpleadoActivity.class);
+                intent.putExtra("action", "new");
+                intent.putExtra("apikey", apiKey);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

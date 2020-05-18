@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="44dp"
         android:text="@string/EditButton"
         app:layout_constraintEnd_toStartOf="@+id/buttonBorrarTrabajo"
         app:layout_constraintTop_toBottomOf="@+id/txtDepartamentoValor" />
@@ -79,12 +79,12 @@
         android:id="@+id/txtNombreTrabajoValor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:text="@string/trabajoNombreValor"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/txtSalarioMin"
+        app:layout_constraintStart_toEndOf="@+id/txtSalarioMax"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

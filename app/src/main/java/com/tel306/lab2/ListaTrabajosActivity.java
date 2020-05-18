@@ -77,11 +77,12 @@ public class ListaTrabajosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.itemChangeList:
                 startActivity(new Intent(this, ListaEmpleadosActivity.class));
                 finish();
+                break;
             case R.id.itemAdd:
                 Intent intent = new Intent(this, CrearEditarTrabajoActivity.class);
                 intent.putExtra("action", "new");
@@ -92,8 +93,8 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getApiKey(final VolleyCallBack callBack){
-        if (isInternetAvailable(this)){
+    public void getApiKey(final VolleyCallBack callBack) {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/getApiKey?groupKey=HTUxbtfKpEb2GJ3Y2d9e";
@@ -121,7 +122,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
     }
 
     public void getListaTrabajos() {
-        if (isInternetAvailable(this)){
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/trabajos";
@@ -137,23 +138,20 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                         @Override
                         public void onPositionClicked(boolean action, int position) {
 
-                            if(listaTrabajos[position].getCreatedBy() != null){ //Fue creado por nosotros
-                                if (action){ //ELIMINAR
+                            if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
+                                if (action) { //ELIMINAR
 
-                                }
-                                else{ //EDITAR
+                                } else { //EDITAR
                                     Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
                                     intent.putExtra("action", "edit");
                                     intent.putExtra("apikey", apiKey);
                                     intent.putExtra("trabajo", listaTrabajos[position]);
                                     startActivity(intent);
                                 }
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(ListaTrabajosActivity.this, "No se pueden hacer modificaciones en un trabajo por defecto", Toast.LENGTH_SHORT).show();
                                 //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
                             }
-
 
 
                         }
@@ -184,8 +182,8 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         }
     }
 
-    public void getListaDepartamentos(final VolleyCallBack callBack){
-        if (isInternetAvailable(this)){
+    public void getListaDepartamentos(final VolleyCallBack callBack) {
+        if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
