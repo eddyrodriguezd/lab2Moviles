@@ -14,5 +14,17 @@
     <string name="trabajoSalarioMaximoValor">0</string>
     <string name="trabajoDepartamentoValor">######</string>
     <string name="trabajoAbreviacionValor">##</string>
-
+    <string name="empleadoNombre">Nombre</string>
+    <string name="empleadoApellido">Apellido</string>
+    <string name="empleadoEmail">Email</string>
+    <string name="empleadoNumero">Número</string>
+    <string name="empleadoTituloTrabajo">Trabajo</string>
+    <string name="empleadoSalario">Salario</string>
+    <string name="empleadoDepartamento">Departamento</string>
+    <string name="empleadoApellidoValor">#######</string>
+    <string name="empleadoEmailValor">######</string>
+    <string name="empleadoNumeroValor">000</string>
+    <string name="empleadoTituloTrabajoValor">######</string>
+    <string name="empleadoSalarioValor">000</string>
+    <string name="empleadoDepartamentoValor">######</string>
 </resources>

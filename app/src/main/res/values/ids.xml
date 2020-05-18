@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <item name="txtNombreEmpleadoValor" type="id" />
+    <item name="txtViewApellidoValor" type="id" />
+    <item name="txtEmailValor" type="id" />
+    <item name="txtNumeroValor" type="id" />
+    <item name="txtTituloTrabajoValor" type="id" />
+    <item name="txtSalarioValor" type="id" />
+</resources>
