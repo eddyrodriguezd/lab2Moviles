@@ -15,4 +15,8 @@
     <string name="trabajoDepartamentoValor">######</string>
     <string name="trabajoAbreviacionValor">##</string>
 
+
+    <string name="botonAceptar">Aceptar</string>
+    <string name="botonCancelar">Cancelar</string>
+
 </resources>

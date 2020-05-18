@@ -64,11 +64,10 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
         @Override
         public void onClick(View v) {
             if (v.getId() == btnEditar.getId()) {
-                Toast.makeText(v.getContext(), "Editar elemento de la fila = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                listenerRef.get().onPositionClicked(false, getAdapterPosition());
             } else if (v.getId() == btnEliminar.getId()){
-                Toast.makeText(v.getContext(), "Eliminar elemento de la fila = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                listenerRef.get().onPositionClicked(true, getAdapterPosition());
             }
-            listenerRef.get().onPositionClicked(getAdapterPosition());
         }
 
         @Override

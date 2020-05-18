@@ -1,6 +1,8 @@
 package com.tel306.lab2.entidades;
 
-public class Trabajo {
+import java.io.Serializable;
+
+public class Trabajo implements Serializable {
     private String jobId;
     private String jobTitle;
     private int minSalary;

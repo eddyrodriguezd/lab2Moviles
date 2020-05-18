@@ -6,4 +6,153 @@
     android:layout_height="match_parent"
     tools:context=".CrearEditarTrabajoActivity">
 
+    <TextView
+        android:id="@+id/txtNuevoTrabajoNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="128dp"
+        android:text="@string/trabajoNombre"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/trabajoNombre" />
+
+    <TextView
+        android:id="@+id/txtNuevoTrabajoSalarioMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/trabajoSalarioMinimo"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoTrabajoNombre"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoTrabajoNombre"
+        tools:text="@string/trabajoSalarioMinimo" />
+
+    <TextView
+        android:id="@+id/txtNuevoTrabajoDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/trabajoDepartamento"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoTrabajoSalarioMax"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoTrabajoSalarioMax" />
+
+    <TextView
+        android:id="@+id/txtNuevoTrabajoAbreviacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/trabajoAbreviacion"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoTrabajoDepartamento"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoTrabajoDepartamento" />
+
+    <TextView
+        android:id="@+id/txtNuevoTrabajoSalarioMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/trabajoSalarioMaximo"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevoTrabajoSalarioMin" />
+
+    <EditText
+        android:id="@+id/editTextTrabajoNombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoTrabajoNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoNombre" />
+
+    <EditText
+        android:id="@+id/editTextTrabajoSalarioMin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoSalarioMin" />
+
+    <EditText
+        android:id="@+id/editTextTrabajoSalarioMax"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoTrabajoSalarioMax"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoSalarioMax" />
+
+    <EditText
+        android:id="@+id/editTextTrabajoAbreviacion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoTrabajoAbreviacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/txtNuevoTrabajoSalarioMin"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoAbreviacion" />
+
+    <Button
+        android:id="@+id/buttonAceptar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/botonAceptar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/botonCancelar"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonAceptar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinnerDepartamento"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNuevoTrabajoDepartamento"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTrabajoSalarioMax"
+        app:layout_constraintStart_toStartOf="@+id/editTextTrabajoSalarioMax"
+        app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoDepartamento" />
 </androidx.constraintlayout.widget.ConstraintLayout>

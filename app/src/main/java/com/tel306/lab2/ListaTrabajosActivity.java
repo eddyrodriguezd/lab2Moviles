@@ -83,7 +83,10 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ListaEmpleadosActivity.class));
                 finish();
             case R.id.itemAdd:
-                Toast.makeText(this, "Agregar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CrearEditarTrabajoActivity.class);
+                intent.putExtra("action", "new");
+                intent.putExtra("apikey", apiKey);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,11 +131,30 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                     Log.d("ListaTrabajos", response);
                     Gson gson = new Gson();
                     DtoTrabajo dtoTrabajo = gson.fromJson(response, DtoTrabajo.class);
-                    Trabajo[] listaTrabajos = dtoTrabajo.getTrabajos();
+                    final Trabajo[] listaTrabajos = dtoTrabajo.getTrabajos();
 
                     ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, listaDepartamentos, ListaTrabajosActivity.this, new ClickListener() {
                         @Override
-                        public void onPositionClicked(int position) {
+                        public void onPositionClicked(boolean action, int position) {
+
+                            if(listaTrabajos[position].getCreatedBy() != null){ //Fue creado por nosotros
+                                if (action){ //ELIMINAR
+
+                                }
+                                else{ //EDITAR
+                                    Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
+                                    intent.putExtra("action", "edit");
+                                    intent.putExtra("apikey", apiKey);
+                                    intent.putExtra("trabajo", listaTrabajos[position]);
+                                    startActivity(intent);
+                                }
+                            }
+                            else{
+                                Toast.makeText(ListaTrabajosActivity.this, "No se pueden hacer modificaciones en un trabajo por defecto", Toast.LENGTH_SHORT).show();
+                                //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
+                            }
+
+
 
                         }
 
