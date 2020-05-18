@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -26,6 +28,9 @@ import com.tel306.lab2.entidades.DtoTrabajo;
 import com.tel306.lab2.entidades.Empleado;
 import com.tel306.lab2.entidades.Gerente;
 import com.tel306.lab2.entidades.Trabajo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,7 +234,6 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 if (!editTextEmpleadoApellido.getText().toString().isEmpty() && !editTextEmpleadoCorreo.getText().toString().isEmpty()) {
 
 
-
                     guardarActualizarEmpleado();
                 }
             }
@@ -252,16 +256,72 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
-            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("Crear", response);
-                    finish();
+
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
+            Gson gson = new Gson();
+            Gerente gerente = new Gerente();
+            gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
+            gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+            gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
+            gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+
+            try {
+                jsonObject.put("firstName", editTextEmpleadoNombre.getText().toString());
+                jsonObject.put("lastName", editTextEmpleadoApellido.getText().toString());
+                jsonObject.put("email", editTextEmpleadoCorreo.getText().toString());
+                jsonObject.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                jsonObject.put("salary", editTextEmpleadoSalario.getText().toString());
+                jsonObject.put("commissionPct", editTextEmpleadoComision.getText().toString());
+                jsonObject.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                jsonObject.put("jobId", gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
+                jsonObject.put("managerId", gson.toJson(gerente));
+
+                if (action.equals("edit")) {
+                    jsonObject.put("update", "true");
+                    jsonObject.put("employeeId", empleado.getEmployeeId());
+                    Log.d("erEmp", empleado.getEmployeeId());
+
+                } else if (action.equals("new")) {
+
+                    try {
+
+                        num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0, 3)) + 1;
+                        jsonObject.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                        Log.d("erEmp", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                    } catch (Exception e) {
+                    }
                 }
+
+
+
+                jsonArray.put(jsonObject);
+                Log.d("Crear", jsonArray.toString());
+
+
+
+                /*
+
+
+                 */
+
+
+            } catch (Exception e) {
+
+            }
+
+
+            JsonObjectRequest stringRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("Crear", String.valueOf(response));
+                }
+
+
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("Crear", error.getLocalizedMessage());
+                    Log.d("Crear", Log.getStackTraceString(error));
                 }
             }) {
                 @Override
@@ -277,46 +337,58 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
 
                     params.put("firstName", editTextEmpleadoNombre.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoNombre.getText().toString());
+
                     params.put("lastName", editTextEmpleadoApellido.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoApellido.getText().toString());
+
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoCorreo.getText().toString());
+
                     params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoNumero.getText().toString());
+
                     params.put("salary", editTextEmpleadoSalario.getText().toString());
                     Log.d("erEmp", editTextEmpleadoSalario.getText().toString());
+
                     params.put("commissionPct", editTextEmpleadoComision.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoComision.getText().toString());
 
                     if (action.equals("edit")) {
                         params.put("update", "true");
                         params.put("employeeId", empleado.getEmployeeId());
+                        Log.d("erEmp", empleado.getEmployeeId());
 
                     } else if (action.equals("new")) {
 
                         try {
-                            System.out.println();
-                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
+
+                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0, 3)) + 1;
                             params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
                             Log.d("erEmp", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                        }catch (Exception e){}
-
+                        } catch (Exception e) {
+                        }
 
 
                     }
-                    Gson gson = new Gson();
-                    params.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]) );
-                    Log.d("erEmp",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
 
-                    Gerente gerente = new Gerente();
-                    gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
-                    gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
-                    gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
-                    gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+                    Gson gson2 = new Gson();
+                    params.put("jobId", gson2.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
+                    Log.d("erEmp", gson2.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
 
 
-                    params.put("managerId", gson.toJson(gerente));
-                    Log.d("erEmp",gson.toJson(gerente));
+                    Gerente gerente2 = new Gerente();
+                    gerente2.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
+                    gerente2.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+                    gerente2.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
+                    gerente2.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+
+                    params.put("managerId", gson2.toJson(gerente2));
+                    Log.d("erEmp", gson2.toJson(gerente2));
 
 
-                    params.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
-                    Log.d("erEmp",gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                    params.put("departmentId", gson2.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                    Log.d("erEmp", gson2.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
 
                     return params;
                 }
