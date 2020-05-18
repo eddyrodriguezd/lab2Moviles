@@ -8,7 +8,7 @@
     <string name="trabajoSalarioMinimo">Salario Mínimo</string>
     <string name="trabajoSalarioMaximo">Salario Máximo</string>
     <string name="trabajoDepartamento">Departamento</string>
-    <string name="trabajoAbreviacion">Id trabajo</string>
+    <string name="trabajoAbreviacion">Abreviación</string>
     <string name="trabajoNombreValor">##########</string>
     <string name="trabajoSalarioMinimoValor">0</string>
     <string name="trabajoSalarioMaximoValor">0</string>

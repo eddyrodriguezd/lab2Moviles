@@ -74,6 +74,12 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             editTextTrabajoSalarioMin.setText(String.valueOf(trabajo.getMinSalary()));
             editTextTrabajoSalarioMax.setText(String.valueOf(trabajo.getMaxSalary()));
             editTextTrabajoAbreviacion.setText(String.valueOf(trabajo.getJobId()));
+
+            findViewById(R.id.txtNuevoTrabajoDepartamento).setVisibility(View.INVISIBLE);
+            findViewById(R.id.txtNuevoTrabajoAbreviacion).setVisibility(View.INVISIBLE);
+            sItems.setVisibility(View.INVISIBLE);
+            editTextTrabajoAbreviacion.setVisibility(View.INVISIBLE);
+
            getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
@@ -90,8 +96,6 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         } else if (action.equals("new")) {
             setTitle("Nuevo Trabajo");
 
-            //SPINNER INNECESARIO
-            /*
             getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
@@ -103,7 +107,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sItems.setAdapter(adapter);
                 }
-            });*/
+            });
         }
 
         buttonAceptar = findViewById(R.id.buttonAceptar);
@@ -112,7 +116,6 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Crear", "clicked");
                 if (!editTextTrabajoNombre.getText().toString().isEmpty() && !editTextTrabajoSalarioMin.getText().toString().isEmpty()
                         && !editTextTrabajoSalarioMax.getText().toString().isEmpty()) {
 
@@ -143,6 +146,8 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Intent returnIntent  = new Intent();
+                    setResult(CrearEditarTrabajoActivity.RESULT_OK, returnIntent);
                     Log.d("Crear", response);
                     finish();
                 }

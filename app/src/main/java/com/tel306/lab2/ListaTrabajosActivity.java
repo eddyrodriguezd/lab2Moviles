@@ -1,6 +1,7 @@
 package com.tel306.lab2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ListaTrabajosActivity extends AppCompatActivity {
+
+    private static final int CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 1;
 
     private String apiKey;
     private Departamento[] listaDepartamentos;
@@ -146,7 +149,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                                     intent.putExtra("action", "edit");
                                     intent.putExtra("apikey", apiKey);
                                     intent.putExtra("trabajo", listaTrabajos[position]);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
                                 }
                             } else {
                                 Toast.makeText(ListaTrabajosActivity.this, "No se pueden hacer modificaciones en un trabajo por defecto", Toast.LENGTH_SHORT).show();
@@ -210,6 +213,28 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 }
             };
             requestQueue.add(stringRequest);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("Crear", "onActivityResult");
+
+        if(requestCode == CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+            Log.d("Crear", "CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE");
+
+            if(requestCode == RESULT_OK){ //Refresca la pantalla
+                Log.d("Crear", "Result OK");
+                getListaDepartamentos(new VolleyCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        getListaTrabajos();
+                    }
+                });
+            }
+
         }
     }
 }
