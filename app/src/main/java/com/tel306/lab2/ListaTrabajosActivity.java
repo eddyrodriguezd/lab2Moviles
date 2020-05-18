@@ -15,11 +15,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,7 +30,6 @@ import com.tel306.lab2.entidades.DtoDepartamento;
 import com.tel306.lab2.entidades.DtoTrabajo;
 import com.tel306.lab2.entidades.Trabajo;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,14 +53,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         getApiKey(new VolleyCallBack() {
             @Override
             public void onSuccess() {
-
-                getListaDepartamentos(new VolleyCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        getListaTrabajos();
-                    }
-                });
-
+                refrescarPantalla();
             }
         });
 
@@ -146,7 +136,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
                             if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
                                 if (action) { //ELIMINAR
-                                    deleteTrabajo(listaTrabajos[position].getJobId());
+                                    borrarTrabajo(listaTrabajos[position].getJobId());
 
                                 } else { //EDITAR
                                     Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
@@ -229,7 +219,16 @@ public class ListaTrabajosActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteTrabajo(String idTrabajo){
+    public void refrescarPantalla(){
+        getListaDepartamentos(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                getListaTrabajos();
+            }
+        });
+    }
+
+    public void borrarTrabajo(String idTrabajo){
         if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -239,6 +238,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     Log.d("Eliminar", response);
                     Toast.makeText(ListaTrabajosActivity.this, "Trabajo eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                    refrescarPantalla();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -275,48 +275,10 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                 }
 
                 Log.d("Crear", "Result OK");
-                getListaDepartamentos(new VolleyCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        getListaTrabajos();
-                    }
-                });
+                refrescarPantalla();
             }
 
         }
     }
 
-    public void borrarTrabajo(){
-        if (isInternetAvailable(this)){
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-            String url ="http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo";
-            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(response);
-                        String estado = jsonObject.getString("estado");
-                        Toast.makeText(ListaTrabajosActivity.this, estado, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Api-key", error.getLocalizedMessage());
-                }
-            }){
-                @Override
-                public Map<String,String> getHeaders() throws AuthFailureError{
-                    Map <String,String> params = new HashMap<>();
-                    params.put("api-key",apiKey);
-                    return params;
-                }
-            };
-        }
-
-    }
 }

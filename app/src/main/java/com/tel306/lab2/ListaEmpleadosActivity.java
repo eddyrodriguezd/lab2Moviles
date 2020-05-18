@@ -1,6 +1,7 @@
 package com.tel306.lab2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,9 @@ import android.widget.Toast;
 
 
 public class ListaEmpleadosActivity extends AppCompatActivity {
+
+    private static final int CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 1;
+    private static final int EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE = 2;
 
     private String apiKey;
 
@@ -84,7 +88,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CrearEditarEmpleadoActivity.class);
                 intent.putExtra("action", "new");
                 intent.putExtra("apikey", apiKey);
-                startActivity(intent);
+                startActivityForResult(intent, CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
         }
 
         return super.onOptionsItemSelected(item);
@@ -141,7 +145,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                             if (listaEmpleados[position].getCreatedBy() != null) { //Fue creado por nosotros
                                 if (action) { // TODO  DIALOG ELIMINAR
 
-                                    borrarEmpleado();
+                                    borrarEmpleado(listaEmpleados[position].getEmployeeId());
 
 
                                 } else { //EDITAR
@@ -149,7 +153,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                                     intent.putExtra("action", "edit");
                                     intent.putExtra("apikey", apiKey);
                                     intent.putExtra("empleado", listaEmpleados[position]);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
                                 }
                             } else {
                                 AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaEmpleadosActivity.this);
@@ -203,27 +207,22 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
     }
 
 
-    public void borrarEmpleado() {
+    public void borrarEmpleado(String idEmpleado) {
         if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/empleado";
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/empleado?id=" + idEmpleado;
             StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(response);
-                        String estado = jsonObject.getString("estado");
-                        Toast.makeText(ListaEmpleadosActivity.this, estado, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("Eliminar", response);
+                    Toast.makeText(ListaEmpleadosActivity.this, "Empleado eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                    getListaEmpleados();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("Api-key", error.getLocalizedMessage());
+                    Log.d("BorrarEmpleado", error.getLocalizedMessage());
                 }
             }) {
                 @Override
@@ -234,6 +233,30 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                 }
             };
             requestQueue.add(stringRequest);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("Crear", "onActivityResult");
+
+        if(requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+
+            if (resultCode == RESULT_OK) { //Refresca la pantalla
+
+                if(requestCode==CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaEmpleadosActivity.this, "Empleado creado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+                else if (requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+                    Toast.makeText(ListaEmpleadosActivity.this, "Empleado modificado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+
+                Log.d("Crear", "Result OK");
+                getListaEmpleados();
+            }
+
         }
     }
 

@@ -255,6 +255,8 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Intent returnIntent  = new Intent();
+                    setResult(CrearEditarEmpleadoActivity.RESULT_OK, returnIntent);
                     Log.d("Crear", response);
                     finish();
                 }
