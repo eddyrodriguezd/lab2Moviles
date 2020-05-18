@@ -24,6 +24,7 @@ import com.tel306.lab2.entidades.DtoDepartamento;
 import com.tel306.lab2.entidades.DtoEmpleado;
 import com.tel306.lab2.entidades.DtoTrabajo;
 import com.tel306.lab2.entidades.Empleado;
+import com.tel306.lab2.entidades.Gerente;
 import com.tel306.lab2.entidades.Trabajo;
 
 import java.util.ArrayList;
@@ -225,12 +226,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Crear", "clicked");
-                if (!editTextEmpleadoApellido.getText().toString().isEmpty() && !editTextEmpleadoCorreo.getText().toString().isEmpty()
-                        && !listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentName().isEmpty()
-                        && !listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName().isEmpty()
-                        && !listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobTitle().isEmpty()
-
-                ) {
+                if (!editTextEmpleadoApellido.getText().toString().isEmpty() && !editTextEmpleadoCorreo.getText().toString().isEmpty()) {
 
 
 
@@ -251,6 +247,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
     // TODO empieza logica guardar
     public void guardarActualizarEmpleado() {
+
         if (isInternetAvailable(this)) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -284,6 +281,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
                     params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
                     params.put("salary", editTextEmpleadoSalario.getText().toString());
+                    Log.d("erEmp", editTextEmpleadoSalario.getText().toString());
                     params.put("commissionPct", editTextEmpleadoComision.getText().toString());
 
                     if (action.equals("edit")) {
@@ -293,20 +291,32 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     } else if (action.equals("new")) {
 
                         try {
-                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1 ;
+                            System.out.println();
+                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
                             params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                            Log.d("erEmp", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
                         }catch (Exception e){}
 
 
-                        params.put("employeeId", editTextEmpleadoId.toString());
+
                     }
+                    Gson gson = new Gson();
+                    params.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]) );
+                    Log.d("erEmp",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
 
-                    params.put("jobId", listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
+                    Gerente gerente = new Gerente();
+                    gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
+                    gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+                    gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
+                    gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
 
-                    params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
 
-                    params.put("departmentId", String.valueOf(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentId()));
+                    params.put("managerId", gson.toJson(gerente));
+                    Log.d("erEmp",gson.toJson(gerente));
 
+
+                    params.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                    Log.d("erEmp",gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
 
                     return params;
                 }

@@ -1,6 +1,8 @@
 package com.tel306.lab2.entidades;
 
-public class Gerente {
+import java.io.Serializable;
+
+public class Gerente implements Serializable {
     private String employeeId;
     private String firstName;
     private String lastName;

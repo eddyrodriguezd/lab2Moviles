@@ -1,6 +1,8 @@
 package com.tel306.lab2.entidades;
 
-public class Departamento {
+import java.io.Serializable;
+
+public class Departamento implements Serializable {
     private int departmentId;
     private String departmentName;
     private String departmentShortName;
