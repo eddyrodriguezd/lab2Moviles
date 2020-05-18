@@ -20,7 +20,6 @@ import java.lang.ref.WeakReference;
 public class ListaEmpleadosAdapter extends RecyclerView.Adapter<ListaEmpleadosAdapter.EmpleadoViewHolder> {
 
     private final ClickListener listener;
-
     Empleado[] listaEmpleados;
     Context contexto;
 

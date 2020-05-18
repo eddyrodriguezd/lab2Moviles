@@ -82,7 +82,6 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
         spinnerArray3 = new ArrayList<String>();
 
 
-        editTextEmpleadoId = findViewById(R.id.editTextEmpleadoId);
         editTextEmpleadoNombre = findViewById(R.id.editTextEmpleadoNombre);
         editTextEmpleadoApellido = findViewById(R.id.editTextEmpleadoApellido);
         editTextEmpleadoCorreo = findViewById(R.id.editTextEmpleadoCorreo);
@@ -97,7 +96,6 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
         if (action.equals("edit")) {
             setTitle("Editar Empleado");
             empleado = (Empleado) intent.getSerializableExtra("empleado");
-            editTextEmpleadoId.setText(empleado.getEmployeeId());
             editTextEmpleadoNombre.setText(empleado.getFirstName());
             editTextEmpleadoApellido.setText(empleado.getLastName());
             editTextEmpleadoCorreo.setText(empleado.getEmail());
@@ -233,11 +231,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
                 ) {
 
-                    if (action.equals("new")) {
-                        if (editTextEmpleadoId.getText().toString().isEmpty()) {
-                            return;
-                        }
-                    }
+
 
                     guardarActualizarEmpleado();
                 }
@@ -254,99 +248,67 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
     }
 
-        // TODO empieza logica guardar
-        public void guardarActualizarEmpleado(){
-            if (isInternetAvailable(this)) {
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
+    // TODO empieza logica guardar
+    public void guardarActualizarEmpleado() {
+        if (isInternetAvailable(this)) {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-                String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
-                StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Crear", response);
-                        finish();
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("Crear", response);
+                    finish();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Crear", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("api-key", apiKey);
+                    return headers;
+                }
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+
+
+                    params.put("firstName", editTextEmpleadoNombre.getText().toString());
+                    params.put("lastName", editTextEmpleadoApellido.getText().toString());
+                    params.put("email", editTextEmpleadoCorreo.getText().toString());
+                    params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                    params.put("salary", editTextEmpleadoSalario.getText().toString());
+                    params.put("commissionPct", editTextEmpleadoComision.getText().toString());
+
+                    if (action.equals("edit")) {
+                        params.put("update", "true");
+                        params.put("employeeId", empleado.getEmployeeId());
+
+                    } else if (action.equals("new")) {
+                        //TODO verificacion de no cambiar el ID de empleado. oops.
+                        params.put("employeeId", editTextEmpleadoId.toString());
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Crear", error.getLocalizedMessage());
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<>();
-                        headers.put("api-key", apiKey);
-                        return headers;
-                    }
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
+                    params.put("jobId", listaEmpleados[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId().getJobId());
+
+                    params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+
+                    params.put("departmentId", String.valueOf(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentId()));
 
 
-                        params.put("firstName", editTextEmpleadoNombre.getText().toString());
-                        params.put("lastName", editTextEmpleadoApellido.getText().toString());
-                        params.put("email", editTextEmpleadoCorreo.getText().toString());
-                        params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
-                        params.put("salary", editTextEmpleadoSalario.getText().toString());
-                        params.put("commissionPct", editTextEmpleadoComision.getText().toString());
-
-                        if (action.equals("edit")) {
-                            params.put("update", "true");
-                            params.put("employeeId", empleado.getEmployeeId());
-                        } else if (action.equals("new")) {
-                            //TODO verificacion de no cambiar el ID de empleado. oops.
-                            params.put("employeeId", editTextEmpleadoId.toString());
-                        }
-                        params.put("jobId", listaEmpleados[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId().getJobId());
-
-                        params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
-
-                        params.put("departmentId",String.valueOf(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentId()));
-
-
-
-
-                        return params;
-                    }
-                };
-                requestQueue.add(stringRequest);
-            }
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
         }
+    }
 
-        //termina logica guardar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //termina logica guardar
 
 
     public void getListaEmpleados(final VolleyCallBack callBack) {

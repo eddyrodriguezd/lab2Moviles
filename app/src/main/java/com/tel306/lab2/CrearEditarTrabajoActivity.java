@@ -96,6 +96,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         } else if (action.equals("new")) {
             setTitle("Nuevo Trabajo");
 
+
             getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
