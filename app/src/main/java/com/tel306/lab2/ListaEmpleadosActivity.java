@@ -137,7 +137,10 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                         public void onPositionClicked(boolean action, int position) {
 
                             if (listaEmpleados[position].getCreatedBy() != null) { //Fue creado por nosotros
-                                if (action) { //ELIMINAR
+                                if (action) { // TODO  DIALOG ELIMINAR
+
+                                    borrarEmpleado();
+
 
                                 } else { //EDITAR
                                     Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
@@ -186,6 +189,41 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
         }
 
 
+    }
+
+
+    public void borrarEmpleado() {
+        if (isInternetAvailable(this)) {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/empleado";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response);
+                        String estado = jsonObject.getString("estado");
+                        Toast.makeText(ListaEmpleadosActivity.this, estado, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Api-key", error.getLocalizedMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("api-key", apiKey);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
     }
 
 
