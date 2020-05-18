@@ -237,4 +237,38 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
         }
     }
+
+    public void borrarTrabajo(){
+        if (isInternetAvailable(this)){
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            String url ="http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo";
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response);
+                        String estado = jsonObject.getString("estado");
+                        Toast.makeText(ListaTrabajosActivity.this, estado, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Api-key", error.getLocalizedMessage());
+                }
+            }){
+                @Override
+                public Map<String,String> getHeaders() throws AuthFailureError{
+                    Map <String,String> params = new HashMap<>();
+                    params.put("api-key",apiKey);
+                    return params;
+                }
+            };
+        }
+
+    }
 }
