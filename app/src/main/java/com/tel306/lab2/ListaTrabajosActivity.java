@@ -223,9 +223,9 @@ public class ListaTrabajosActivity extends AppCompatActivity {
 
         Log.d("Crear", "onActivityResult");
 
-        if(requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE || requestCode==CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE){
+        if (requestCode == EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE || requestCode == CREAR_EMPLEADO_ACTIVITY_REQUEST_CODE) {
 
-            if(resultCode  == RESULT_OK){ //Refresca la pantalla
+            if (resultCode == RESULT_OK) { //Refresca la pantalla
                 Log.d("Crear", "Result OK");
                 getListaDepartamentos(new VolleyCallBack() {
                     @Override

@@ -160,35 +160,11 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                         }
 
 
-
-
-
-
-
                     }
-                          //finish click listener
+                            //finish click listener
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            );
+                    );
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewListaEmpleados);
                     recyclerView.setAdapter(listaEmpleadosAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(ListaEmpleadosActivity.this));
@@ -211,7 +187,6 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }
