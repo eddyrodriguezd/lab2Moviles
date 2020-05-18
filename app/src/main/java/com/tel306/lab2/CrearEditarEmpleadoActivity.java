@@ -257,38 +257,48 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
             Log.d("Crear", "guardarActualizarEmpleado");
 
-            //JSONArray jsonArray = new JSONArray();
-            JSONObject jsonObject = new JSONObject();
+            Map<String, String> params = new HashMap<>();
+            params.put("firstName", editTextEmpleadoNombre.getText().toString());
+            params.put("lastName", editTextEmpleadoApellido.getText().toString());
+            params.put("email", editTextEmpleadoCorreo.getText().toString());
+            params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+
+            Log.d("Crear", editTextEmpleadoNombre.getText().toString());
+            Log.d("Crear", editTextEmpleadoApellido.getText().toString());
+            Log.d("Crear", editTextEmpleadoCorreo.getText().toString());
+            Log.d("Crear", editTextEmpleadoNumero.getText().toString());
+
+            if (action.equals("edit")) {
+                params.put("update", "true");
+                params.put("employeeId", empleado.getEmployeeId());
+
+            } else if (action.equals("new")) {
+
+                try {
+                    num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
+                    params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                    Log.d("Crear",num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                }catch (Exception e){}
+
+            }
+            Log.d("Crear", params.toString());
+
+            JSONObject jsonObject = new JSONObject(params);
             try{
-                jsonObject.put("firstName", editTextEmpleadoNombre.getText().toString());
-                jsonObject.put("lastName", editTextEmpleadoApellido.getText().toString());
-                jsonObject.put("email", editTextEmpleadoCorreo.getText().toString());
-                jsonObject.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                Gson gson = new Gson();
                 jsonObject.put("salary", Double.parseDouble(editTextEmpleadoSalario.getText().toString()));
                 jsonObject.put("commissionPct", Double.parseDouble(editTextEmpleadoComision.getText().toString()));
 
-                if (action.equals("edit")) {
-                    jsonObject.put("update", "true");
-                    jsonObject.put("employeeId", empleado.getEmployeeId());
-
-                } else if (action.equals("new")) {
-
-                    try {
-                        num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
-                        jsonObject.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                    }catch (Exception e){}
-
-                }
-                jsonObject.put("jobId",listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]);
+                jsonObject.put("jobId","AC_MGR");
+                jsonObject.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
 
                 Gerente gerente = new Gerente();
                 gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
                 gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
                 gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
                 gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
-                jsonObject.put("managerId", gerente);
-
-                jsonObject.put("departmentId", listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]);
+                jsonObject.put("managerId", gson.toJson(gerente));
+                jsonObject.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
 
                 Log.d("Crear", jsonObject.toString());
 
@@ -316,57 +326,6 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     headers.put("api-key", apiKey);
                     Log.d("Crear", apiKey);
                     return headers;
-                }
-
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("firstName", editTextEmpleadoNombre.getText().toString());
-                    Log.d("Crear", editTextEmpleadoNombre.getText().toString());
-                    params.put("lastName", editTextEmpleadoApellido.getText().toString());
-                    params.put("email", editTextEmpleadoCorreo.getText().toString());
-                    params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
-                    params.put("salary", editTextEmpleadoSalario.getText().toString());
-                    params.put("commissionPct", editTextEmpleadoComision.getText().toString());
-
-                    Log.d("Crear", editTextEmpleadoApellido.getText().toString());
-                    Log.d("Crear", editTextEmpleadoCorreo.getText().toString());
-                    Log.d("Crear", editTextEmpleadoNumero.getText().toString());
-                    Log.d("Crear", editTextEmpleadoSalario.getText().toString());
-                    Log.d("Crear", editTextEmpleadoComision.getText().toString());
-
-                    if (action.equals("edit")) {
-                        params.put("update", "true");
-                        params.put("employeeId", empleado.getEmployeeId());
-
-                    } else if (action.equals("new")) {
-
-                        try {
-                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
-                            params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                            Log.d("Crear",num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                        }catch (Exception e){}
-
-                    }
-                    Gson gson = new Gson();
-                    params.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]) );
-                    Log.d("Crear",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
-
-
-                    Gerente gerente = new Gerente();
-                    gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
-                    gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
-                    gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
-                    gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
-                    params.put("managerId", gson.toJson(gerente));
-                    Log.d("Crear",gson.toJson(gerente));
-
-                    params.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
-                    Log.d("Crear",gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
-
-                    Log.d("Crear", params.toString());
-
-                    return params;
                 }
             };
 
