@@ -130,7 +130,17 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                     DtoTrabajo dtoTrabajo = gson.fromJson(response, DtoTrabajo.class);
                     Trabajo[] listaTrabajos = dtoTrabajo.getTrabajos();
 
-                    ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, listaDepartamentos, ListaTrabajosActivity.this);
+                    ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, listaDepartamentos, ListaTrabajosActivity.this, new ClickListener() {
+                        @Override
+                        public void onPositionClicked(int position) {
+
+                        }
+
+                        @Override
+                        public void onLongClicked(int position) {
+
+                        }
+                    });
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewListaTrabajos);
                     recyclerView.setAdapter(listaTrabajosAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(ListaTrabajosActivity.this));
