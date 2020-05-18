@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-</resources>
+    <item name="txtNombreEmpleadoValor" type="id" />
+    <item name="txtViewApellidoValor" type="id" />
+    <item name="txtEmailValor" type="id" />
+    <item name="txtNumeroValor" type="id" />
+    <item name="txtTituloTrabajoValor" type="id" />
+    <item name="txtSalarioValor" type="id" />
+    <item name="editTextEmpleadoNombre" type="id"/>
+    <item name="editTextEmpleadoApellido" type="id"/>
+    <item name="editTextEmpleadoEmail" type="id"/>
+    <item name="editTextEmpleadoNumero" type="id"/>
+    <item name="editTextEmpleadoSalario" type="id"/>
+    <item name="editTextEmpleadoComision" type="id"/>
+    <item name="spinnerTrabajo" type="id"/>
+    <item name="spinnerJefe" type="id"/>
+    </resources>
