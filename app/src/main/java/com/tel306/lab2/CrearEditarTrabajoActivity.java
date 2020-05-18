@@ -90,8 +90,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         } else if (action.equals("new")) {
             setTitle("Nuevo Trabajo");
 
-            //SPINNER INNECESARIO
-            /*
+
             getListaDepartamentos(new VolleyCallBack() {
                 @Override
                 public void onSuccess() {
@@ -103,7 +102,7 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sItems.setAdapter(adapter);
                 }
-            });*/
+            });
         }
 
         buttonAceptar = findViewById(R.id.buttonAceptar);

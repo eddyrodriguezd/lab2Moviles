@@ -147,7 +147,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             } else {
-                                Toast.makeText(ListaEmpleadosActivity.this, "No segaa", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ListaEmpleadosActivity.this, "No se pueden hacer modificaciones en un empleado por defecto", Toast.LENGTH_SHORT).show();
                                 //Mostrar DIALOG que indique que no se pueden hacer modificaciones porque no lo creamos nosotros
                             }
 
