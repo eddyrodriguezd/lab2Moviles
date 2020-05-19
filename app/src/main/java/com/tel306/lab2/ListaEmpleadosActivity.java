@@ -147,7 +147,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                                     if (action) { // TODO  DIALOG ELIMINAR
                                         Log.d("Eliminar", "Employee ID: " + listaEmpleados[position].getEmployeeId());
                                         borrarEmpleado(listaEmpleados[position].getEmployeeId());
-                                        
+
                                     } else { //EDITAR
                                         Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
                                         intent.putExtra("action", "edit");

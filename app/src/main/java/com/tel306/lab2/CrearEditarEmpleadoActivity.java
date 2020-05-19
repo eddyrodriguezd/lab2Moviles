@@ -135,10 +135,17 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     for (int i = 0; i < listaEmpleados.length; i++) {
-                        spinnerArray2.add(listaEmpleados[i].getFirstName() + ' ' + listaEmpleados[i].getLastName());
-                        if (listaEmpleados[i].getEmployeeId().equalsIgnoreCase(empleado.getEmployeeId())) {
-                            aux2 = i;
+
+                        if(!listaEmpleados[i].getEmployeeId().equals(empleado.getEmployeeId())){
+                            spinnerArray2.add(listaEmpleados[i].getFirstName() + ' ' + listaEmpleados[i].getLastName());
+                            Log.d("CrearE", "De la lista: " + listaEmpleados[i].getEmployeeId());
+                            Log.d("CrearE", "employeeId: " + empleado.getManagerId().getEmployeeId());
+                            if (listaEmpleados[i].getEmployeeId().equals(empleado.getManagerId().getEmployeeId())) {
+                                aux2 = i;
+                                Log.d("CrearE", "Encontrado: " + aux2);
+                            }
                         }
+
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(CrearEditarEmpleadoActivity.this,
                             android.R.layout.simple_spinner_item, spinnerArray2);
@@ -154,15 +161,19 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 public void onSuccess() {
                     for (int i = 0; i < listaTrabajos.length; i++) {
                         spinnerArray3.add(listaTrabajos[i].getJobTitle());
-                        if (listaTrabajos[i].getJobId().equalsIgnoreCase(empleado.getJobId().getJobId())) {
+                        Log.d("CrearT", "De la lista: " + listaTrabajos[i].getJobId());
+                        Log.d("CrearT", "Combinación: " + empleado.getJobId().getJobId());
+                        if (listaTrabajos[i].getJobId().equals(empleado.getJobId().getJobId())) {
+                            Log.d("CrearT", "Encontrado: " + listaTrabajos[i].getJobId());
                             aux3 = i;
+                            Log.d("CrearT", "Encontrado: " + aux3);
                         }
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(CrearEditarEmpleadoActivity.this,
                             android.R.layout.simple_spinner_item, spinnerArray3);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerEmpleadoTrabajo.setAdapter(adapter);
-                    spinnerEmpleadoTrabajo.setSelection(aux1);
+                    spinnerEmpleadoTrabajo.setSelection(aux3);
                 }
             });
             //termina de lista spinners
