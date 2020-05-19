@@ -134,29 +134,27 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                         @Override
                         public void onPositionClicked(boolean action, int position) {
 
-                            if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
-                                if (action) { //ELIMINAR
-                                    borrarTrabajo(listaTrabajos[position].getJobId());
+                            if (listaTrabajos[position].getCreatedBy() != null) {
 
-                                } else { //EDITAR
-                                    Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
-                                    intent.putExtra("action", "edit");
-                                    intent.putExtra("apikey", apiKey);
-                                    intent.putExtra("trabajo", listaTrabajos[position]);
-                                    startActivityForResult(intent, EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE);
+                                if(listaTrabajos[position].getCreatedBy().equals("grupo_2")){
+                                    if (action) { //ELIMINAR
+                                        borrarTrabajo(listaTrabajos[position].getJobId());
+
+                                    } else { //EDITAR
+                                        Intent intent = new Intent(ListaTrabajosActivity.this, CrearEditarTrabajoActivity.class);
+                                        intent.putExtra("action", "edit");
+                                        intent.putExtra("apikey", apiKey);
+                                        intent.putExtra("trabajo", listaTrabajos[position]);
+                                        startActivityForResult(intent, EDITAR_TRABAJO_ACTIVITY_REQUEST_CODE);
+                                    }
                                 }
+                                else{
+                                    alertDialog();
+                                }
+
+
                             } else {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaTrabajosActivity.this);
-                                builder1.setMessage("No se puede modificar ni eliminar trabajos no creados por el usuario");
-                                builder1.setCancelable(true);
-                                builder1.setNeutralButton(android.R.string.ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
+                                alertDialog();
                             }
 
 
@@ -186,6 +184,20 @@ public class ListaTrabajosActivity extends AppCompatActivity {
             };
             requestQueue.add(stringRequest);
         }
+    }
+
+    public void alertDialog(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaTrabajosActivity.this);
+        builder1.setMessage("No se puede modificar ni eliminar trabajos no creados por el usuario");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     public void getListaDepartamentos(final VolleyCallBack callBack) {
