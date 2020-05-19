@@ -254,83 +254,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
             String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
-
-            Log.d("Crear", "guardarActualizarEmpleado");
-
-            Map<String, String> params = new HashMap<>();
-            params.put("firstName", editTextEmpleadoNombre.getText().toString());
-            params.put("lastName", editTextEmpleadoApellido.getText().toString());
-            params.put("email", editTextEmpleadoCorreo.getText().toString());
-            params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
-
-            Log.d("Crear", editTextEmpleadoNombre.getText().toString());
-            Log.d("Crear", editTextEmpleadoApellido.getText().toString());
-            Log.d("Crear", editTextEmpleadoCorreo.getText().toString());
-            Log.d("Crear", editTextEmpleadoNumero.getText().toString());
-
-            if (action.equals("edit")) {
-                params.put("update", "true");
-                params.put("employeeId", empleado.getEmployeeId());
-
-            } else if (action.equals("new")) {
-
-                try {
-                    num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
-                    params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                    Log.d("Crear",num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                }catch (Exception e){}
-
-            }
-            Log.d("Crear", params.toString());
-
-            JSONObject jsonObject = new JSONObject(params);
-            try{
-                Gson gson = new Gson();
-                jsonObject.put("salary", Double.parseDouble(editTextEmpleadoSalario.getText().toString()));
-                jsonObject.put("commissionPct", Double.parseDouble(editTextEmpleadoComision.getText().toString()));
-
-                jsonObject.put("jobId","AC_MGR");
-                jsonObject.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
-
-                Gerente gerente = new Gerente();
-                gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
-                gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
-                gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
-                gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
-                jsonObject.put("managerId", gson.toJson(gerente));
-                jsonObject.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
-
-                Log.d("Crear", jsonObject.toString());
-
-            }catch(Exception e){
-                Log.d("Crear", e.getLocalizedMessage());
-            }
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.d("Crear", response.toString());
-                    Intent returnIntent  = new Intent();
-                    setResult(CrearEditarEmpleadoActivity.RESULT_OK, returnIntent);
-                    finish();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Crear", Log.getStackTraceString(error));
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("api-key", apiKey);
-                    Log.d("Crear", apiKey);
-                    return headers;
-                }
-            };
-
-            requestQueue.add(jsonObjectRequest);
-            /*StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Intent returnIntent  = new Intent();
@@ -341,7 +265,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("Crear", error.getLocalizedMessage());
+                    Log.d("Crear", error.getMessage());
                 }
             }) {
                 @Override
@@ -381,27 +305,19 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
                     }
                     Gson gson = new Gson();
-                    params.put("jobId",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]) );
-                    Log.d("erEmp",gson.toJson(listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()]));
+                    params.put("jobId",listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
+                    Log.d("erEmp","jobId: " + listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
 
-                    Gerente gerente = new Gerente();
-                    gerente.setEmail(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmail());
-                    gerente.setEmployeeId(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
-                    gerente.setFirstName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getFirstName());
-                    gerente.setLastName(listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getLastName());
+                    params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
+                    Log.d("erEmp", "managerId: " + listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
 
-
-                    params.put("managerId", gson.toJson(gerente));
-                    Log.d("erEmp",gson.toJson(gerente));
-
-
-                    params.put("departmentId", gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
-                    Log.d("erEmp",gson.toJson(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()]));
+                    params.put("departmentId", String.valueOf(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentId()));
+                    Log.d("erEmp", "departmentId: " + String.valueOf(listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentId()));
 
                     return params;
                 }
             };
-            requestQueue.add(stringRequest);*/
+            requestQueue.add(stringRequest);
         }
     }
 

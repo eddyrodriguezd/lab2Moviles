@@ -131,7 +131,6 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    //REVISAR ESTA PARTE SI FALTA ALGO QUE EDITAR
                     Log.d("ListaEmpleados", response);
                     Gson gson = new Gson();
                     DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
@@ -143,30 +142,26 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
                         public void onPositionClicked(boolean action, int position) {
 
                             if (listaEmpleados[position].getCreatedBy() != null) { //Fue creado por nosotros
-                                if (action) { // TODO  DIALOG ELIMINAR
 
-                                    borrarEmpleado(listaEmpleados[position].getEmployeeId());
-
-
-                                } else { //EDITAR
-                                    Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
-                                    intent.putExtra("action", "edit");
-                                    intent.putExtra("apikey", apiKey);
-                                    intent.putExtra("empleado", listaEmpleados[position]);
-                                    startActivityForResult(intent, EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                                if(listaEmpleados[position].getCreatedBy().equals("grupo_2")){
+                                    if (action) { // TODO  DIALOG ELIMINAR
+                                        Log.d("Eliminar", "Employee ID: " + listaEmpleados[position].getEmployeeId());
+                                        borrarEmpleado(listaEmpleados[position].getEmployeeId());
+                                        
+                                    } else { //EDITAR
+                                        Intent intent = new Intent(ListaEmpleadosActivity.this, CrearEditarEmpleadoActivity.class);
+                                        intent.putExtra("action", "edit");
+                                        intent.putExtra("apikey", apiKey);
+                                        intent.putExtra("empleado", listaEmpleados[position]);
+                                        startActivityForResult(intent, EDITAR_EMPLEADO_ACTIVITY_REQUEST_CODE);
+                                    }
                                 }
+                                else{
+                                    alertDialog();
+                                }
+
                             } else {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaEmpleadosActivity.this);
-                                builder1.setMessage("No se puede modificar ni eliminar empleados no creados por el usuario");
-                                builder1.setCancelable(true);
-                                builder1.setNeutralButton(android.R.string.ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
+                                alertDialog();
                             }
 
 
@@ -174,12 +169,9 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
 
                         @Override
                         public void onLongClicked(int position) {
-
                         }
-
-
                     }
-                            //finish click listener
+
 
 
                     );
@@ -206,6 +198,20 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
 
     }
 
+    public void alertDialog(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(ListaEmpleadosActivity.this);
+        builder1.setMessage("No se puede modificar ni eliminar empleados no creados por el usuario");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
 
     public void borrarEmpleado(String idEmpleado) {
         if (isInternetAvailable(this)) {
@@ -222,7 +228,7 @@ public class ListaEmpleadosActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("BorrarEmpleado", error.getLocalizedMessage());
+                    Log.d("BorrarEmpleado", error.getMessage());
                 }
             }) {
                 @Override

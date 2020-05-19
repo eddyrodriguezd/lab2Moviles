@@ -134,7 +134,7 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                         @Override
                         public void onPositionClicked(boolean action, int position) {
 
-                            if (listaTrabajos[position].getCreatedBy() != null) { //Fue creado por nosotros
+                            if (listaTrabajos[position].getCreatedBy() != "grupo_2") { //Fue creado por nosotros
                                 if (action) { //ELIMINAR
                                     borrarTrabajo(listaTrabajos[position].getJobId());
 
