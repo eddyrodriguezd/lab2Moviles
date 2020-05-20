@@ -117,8 +117,14 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
         buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editTextTrabajoNombre.getText().toString().isEmpty() && !editTextTrabajoSalarioMin.getText().toString().isEmpty()
-                        && !editTextTrabajoSalarioMax.getText().toString().isEmpty()) {
+                String regex = "^\\d+$";
+                if (!editTextTrabajoNombre.getText().toString().isEmpty()
+                        && !editTextTrabajoSalarioMin.getText().toString().isEmpty()
+                        && !editTextTrabajoSalarioMax.getText().toString().isEmpty()
+                        && editTextTrabajoSalarioMin.getText().toString().matches(regex)
+                        && editTextTrabajoSalarioMax.getText().toString().matches(regex)
+                    )
+                {
 
                     if (action.equals("new")) {
                         if (editTextTrabajoAbreviacion.getText().toString().isEmpty()) {
