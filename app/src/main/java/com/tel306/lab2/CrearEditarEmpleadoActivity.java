@@ -137,7 +137,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 public void onSuccess() {
                     for (int i = 0; i < listaEmpleados.length; i++) {
 
-                        if(!listaEmpleados[i].getEmployeeId().equals(empleado.getEmployeeId())){
+                        if (!listaEmpleados[i].getEmployeeId().equals(empleado.getEmployeeId())) {
                             spinnerArray2.add(listaEmpleados[i].getFirstName() + ' ' + listaEmpleados[i].getLastName());
                             Log.d("CrearE", "De la lista: " + listaEmpleados[i].getEmployeeId());
                             Log.d("CrearE", "employeeId: " + empleado.getManagerId().getEmployeeId());
@@ -248,23 +248,13 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                         !editTextEmpleadoCorreo.getText().toString().isEmpty() &&
                         editTextEmpleadoSalario.getText().toString().matches(regex1) &&
                         (
-                        editTextEmpleadoComision.getText().toString().matches(regex2) ||
-                                editTextEmpleadoComision.getText().toString().equalsIgnoreCase("")
-                    ))
-                {
-
-                    Log.d("Crear", "apellidoP: " + editTextEmpleadoApellido.getText().toString());
-                    Log.d("Crear", "correoP: " + editTextEmpleadoCorreo.getText().toString());
-                    Log.d("Crear", "salarioP: " + editTextEmpleadoSalario.getText().toString());
-                    Log.d("Crear", "comisiónP: " + editTextEmpleadoComision.getText().toString());
+                                editTextEmpleadoComision.getText().toString().matches(regex2) ||
+                                        editTextEmpleadoComision.getText().toString().equalsIgnoreCase("")
+                        )) {
 
                     guardarActualizarEmpleado();
-                }
-                else{
-                    Log.d("Crear", "apellidoF: " + editTextEmpleadoApellido.getText().toString());
-                    Log.d("Crear", "correoF: " + editTextEmpleadoCorreo.getText().toString());
-                    Log.d("Crear", "salarioF: " + editTextEmpleadoSalario.getText().toString());
-                    Log.d("Crear", "comisiónF: " + editTextEmpleadoComision.getText().toString());
+                } else {
+
 
                     Toast.makeText(CrearEditarEmpleadoActivity.this, "Error en el formato de las entradas", Toast.LENGTH_SHORT).show();
                 }
@@ -291,7 +281,7 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Intent returnIntent  = new Intent();
+                    Intent returnIntent = new Intent();
                     setResult(CrearEditarEmpleadoActivity.RESULT_OK, returnIntent);
                     Log.d("Crear", response);
                     finish();
@@ -318,26 +308,24 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
 
 
-
-
-                    if(editTextEmpleadoNumero.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNumero.getText().toString().isEmpty()){
-                    }else{
+                    if (editTextEmpleadoNumero.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNumero.getText().toString().isEmpty()) {
+                    } else {
                         params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
                     }
 
-                    if(editTextEmpleadoNombre.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNombre.getText().toString().isEmpty()){
-                    }else{
+                    if (editTextEmpleadoNombre.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNombre.getText().toString().isEmpty()) {
+                    } else {
                         params.put("firstName", editTextEmpleadoNombre.getText().toString());
                     }
 
-                    if(editTextEmpleadoSalario.getText().toString().equalsIgnoreCase("") || editTextEmpleadoSalario.getText().toString().isEmpty()){
-                    }else{
+                    if (editTextEmpleadoSalario.getText().toString().equalsIgnoreCase("") || editTextEmpleadoSalario.getText().toString().isEmpty()) {
+                    } else {
                         params.put("salary", editTextEmpleadoSalario.getText().toString());
                     }
 
-                    if(editTextEmpleadoComision.getText().toString().equalsIgnoreCase("") || editTextEmpleadoComision.getText().toString().isEmpty()){
-                    }else{
-                        params.put("commissionPct",  editTextEmpleadoComision.getText().toString());
+                    if (editTextEmpleadoComision.getText().toString().equalsIgnoreCase("") || editTextEmpleadoComision.getText().toString().isEmpty()) {
+                    } else {
+                        params.put("commissionPct", editTextEmpleadoComision.getText().toString());
                     }
 
 
@@ -349,17 +337,17 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
 
                         try {
                             System.out.println("nuevo empleado en creacion ...");
-                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
+                            num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0, 3)) + 1;
                             params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                            Log.d("erEmp", "id empleado creada es: " +num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                        }catch (Exception e){}
-
+                            Log.d("erEmp", "id empleado creada es: " + num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                        } catch (Exception e) {
+                        }
 
 
                     }
                     Gson gson = new Gson();
-                    params.put("jobId",listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
-                    Log.d("erEmp","jobId: " + listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
+                    params.put("jobId", listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
+                    Log.d("erEmp", "jobId: " + listaTrabajos[spinnerEmpleadoTrabajo.getSelectedItemPosition()].getJobId());
 
                     params.put("managerId", listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
                     Log.d("erEmp", "managerId: " + listaEmpleados[spinnerEmpleadoJefe.getSelectedItemPosition()].getEmployeeId());
