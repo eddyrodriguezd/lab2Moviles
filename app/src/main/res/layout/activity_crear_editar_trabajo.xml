@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".CrearEditarTrabajoActivity">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
     <TextView
         android:id="@+id/txtNuevoTrabajoNombre"
         android:layout_width="wrap_content"
@@ -128,12 +140,12 @@
         android:id="@+id/buttonAceptar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="124dp"
         android:text="@string/botonAceptar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTrabajoAbreviacion" />
 
     <Button
         android:id="@+id/buttonCancelar"
@@ -155,4 +167,7 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextTrabajoSalarioMax"
         app:layout_constraintStart_toStartOf="@+id/editTextTrabajoSalarioMax"
         app:layout_constraintTop_toTopOf="@+id/txtNuevoTrabajoDepartamento" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
