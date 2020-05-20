@@ -291,6 +291,11 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
 
 
+                    params.put("lastName", editTextEmpleadoApellido.getText().toString());
+                    params.put("email", editTextEmpleadoCorreo.getText().toString());
+
+
+                    /*
                     params.put("firstName", editTextEmpleadoNombre.getText().toString());
                     params.put("lastName", editTextEmpleadoApellido.getText().toString());
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
@@ -298,6 +303,28 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     params.put("salary", editTextEmpleadoSalario.getText().toString());
                     Log.d("erEmp", editTextEmpleadoSalario.getText().toString());
                     params.put("commissionPct", editTextEmpleadoComision.getText().toString());
+                    */
+
+                    if(editTextEmpleadoNumero.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNumero.getText().toString().isEmpty()){
+                    }else{
+                        params.put("phoneNumber", editTextEmpleadoNumero.getText().toString());
+                    }
+
+                    if(editTextEmpleadoNombre.getText().toString().equalsIgnoreCase("") || editTextEmpleadoNombre.getText().toString().isEmpty()){
+                    }else{
+                        params.put("firstName", editTextEmpleadoNombre.getText().toString());
+                    }
+
+                    if(editTextEmpleadoSalario.getText().toString().equalsIgnoreCase("") || editTextEmpleadoSalario.getText().toString().isEmpty()){
+                    }else{
+                        params.put("salary", editTextEmpleadoSalario.getText().toString());
+                    }
+
+                    if(editTextEmpleadoComision.getText().toString().equalsIgnoreCase("") || editTextEmpleadoComision.getText().toString().isEmpty()){
+                    }else{
+                        params.put("commissionPct",  editTextEmpleadoComision.getText().toString());
+                    }
+
 
                     if (action.equals("edit")) {
                         params.put("update", "true");
@@ -306,10 +333,10 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     } else if (action.equals("new")) {
 
                         try {
-                            System.out.println();
+                            System.out.println("nuevo empleado en creacion ...");
                             num = Integer.parseInt(listaEmpleados[listaEmpleados.length - 1].getEmployeeId().substring(0,3)) + 1;
                             params.put("employeeId", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
-                            Log.d("erEmp", num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
+                            Log.d("erEmp", "id empleado creada es: " +num + "_" + listaDepartamentos[spinnerEmpleadoDepartamento.getSelectedItemPosition()].getDepartmentShortName());
                         }catch (Exception e){}
 
 
