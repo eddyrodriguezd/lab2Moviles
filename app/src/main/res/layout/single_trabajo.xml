@@ -77,7 +77,7 @@
 
     <TextView
         android:id="@+id/txtNombreTrabajoValor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
@@ -89,7 +89,7 @@
 
     <TextView
         android:id="@+id/txtSalarioMinValor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="12dp"
         android:text="@string/trabajoSalarioMinimoValor"
@@ -100,7 +100,7 @@
 
     <TextView
         android:id="@+id/txtSalarioMaxValor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="12dp"
         android:text="@string/trabajoSalarioMaximoValor"
@@ -111,7 +111,7 @@
 
     <TextView
         android:id="@+id/txtDepartamentoValor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/trabajoDepartamentoValor"

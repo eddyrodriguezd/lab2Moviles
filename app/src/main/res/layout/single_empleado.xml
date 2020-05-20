@@ -185,8 +185,8 @@
 
     <TextView
         android:id="@+id/txtTituloTrabajoValor"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/empleadoTituloTrabajoValor"
         android:textAlignment="viewStart"
