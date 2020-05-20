@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".CrearEditarEmpleadoActivity">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="378dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -212,5 +223,7 @@
         android:text="@string/botonAceptar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/EmpleadoButtonCancelar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
