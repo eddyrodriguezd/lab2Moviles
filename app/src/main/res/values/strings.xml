@@ -4,7 +4,7 @@
     <string name="EditButton">Editar</string>
     <string name="DeleteButton">Borrar</string>
 
-    <string name="trabajoNombre">Titulo</string>
+    <string name="trabajoNombre">Trabajo</string>
     <string name="trabajoSalarioMinimo">Salario Mínimo</string>
     <string name="trabajoSalarioMaximo">Salario Máximo</string>
     <string name="trabajoDepartamento">Departamento</string>

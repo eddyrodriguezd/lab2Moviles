@@ -151,15 +151,10 @@ public class ListaTrabajosActivity extends AppCompatActivity {
                                 else{
                                     alertDialog();
                                 }
-
-
                             } else {
                                 alertDialog();
                             }
-
-
                         }
-
                         @Override
                         public void onLongClicked(int position) {
 

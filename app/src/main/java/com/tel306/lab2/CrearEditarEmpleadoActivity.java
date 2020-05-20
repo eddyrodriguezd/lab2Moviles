@@ -295,7 +295,8 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
 
 
-                    /*
+                    /* Estos cambios son para que se ponga vacio la lectura, solo falta ver que se ponga guion
+                    en vez de un vacio
                     params.put("firstName", editTextEmpleadoNombre.getText().toString());
                     params.put("lastName", editTextEmpleadoApellido.getText().toString());
                     params.put("email", editTextEmpleadoCorreo.getText().toString());
