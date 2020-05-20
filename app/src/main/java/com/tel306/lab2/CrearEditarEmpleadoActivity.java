@@ -251,9 +251,19 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                     )
                 {
 
+                    Log.d("Crear", "apellidoP: " + editTextEmpleadoApellido.getText().toString());
+                    Log.d("Crear", "correoP: " + editTextEmpleadoCorreo.getText().toString());
+                    Log.d("Crear", "salarioP: " + editTextEmpleadoSalario.getText().toString());
+                    Log.d("Crear", "comisiónP: " + editTextEmpleadoComision.getText().toString());
+
                     guardarActualizarEmpleado();
                 }
                 else{
+                    Log.d("Crear", "apellidoF: " + editTextEmpleadoApellido.getText().toString());
+                    Log.d("Crear", "correoF: " + editTextEmpleadoCorreo.getText().toString());
+                    Log.d("Crear", "salarioF: " + editTextEmpleadoSalario.getText().toString());
+                    Log.d("Crear", "comisiónF: " + editTextEmpleadoComision.getText().toString());
+
                     Toast.makeText(CrearEditarEmpleadoActivity.this, "Error en el formato de las entradas", Toast.LENGTH_SHORT).show();
                 }
             }
