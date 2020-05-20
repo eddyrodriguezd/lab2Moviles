@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -133,6 +134,9 @@ public class CrearEditarTrabajoActivity extends AppCompatActivity {
                     }
 
                     guardarActualizarTrabajo();
+                }
+                else{
+                    Toast.makeText(CrearEditarTrabajoActivity.this, "Error en el formato de las entradas", Toast.LENGTH_SHORT).show();
                 }
             }
         });

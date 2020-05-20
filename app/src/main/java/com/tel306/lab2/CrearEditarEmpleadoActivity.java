@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -251,6 +252,9 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
                 {
 
                     guardarActualizarEmpleado();
+                }
+                else{
+                    Toast.makeText(CrearEditarEmpleadoActivity.this, "Error en el formato de las entradas", Toast.LENGTH_SHORT).show();
                 }
             }
         });
