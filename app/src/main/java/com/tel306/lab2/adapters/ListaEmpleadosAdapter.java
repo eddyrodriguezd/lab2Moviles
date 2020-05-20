@@ -87,12 +87,27 @@ public class ListaEmpleadosAdapter extends RecyclerView.Adapter<ListaEmpleadosAd
     @Override
     public void onBindViewHolder(EmpleadoViewHolder holder, int position) {
         Empleado empleado = listaEmpleados[position];
-        holder.txtViewNombreValor.setText(empleado.getFirstName());
+        if(empleado.getFirstName() == null){
+            holder.txtViewNombreValor.setText("---");
+        }else{
+            holder.txtViewNombreValor.setText(empleado.getFirstName());
+        }
+
+        if(empleado.getPhoneNumber() == null){
+            holder.txtNumeroValor.setText("---");
+        }else{
+            holder.txtNumeroValor.setText(empleado.getPhoneNumber());
+        }
+
+        if(empleado.getSalary() == 0.0  ){
+            holder.txtSalarioValor.setText("---");
+        }else{
+            holder.txtSalarioValor.setText(String.valueOf(empleado.getSalary()));
+        }
+
         holder.txtViewApellidoValor.setText(empleado.getLastName());
         holder.txtEmailValor.setText(empleado.getEmail());
-        holder.txtNumeroValor.setText(String.valueOf(empleado.getPhoneNumber()));
         holder.txtTituloTrabajoValor.setText(empleado.getJobId().getJobTitle());
-        holder.txtSalarioValor.setText(String.valueOf(empleado.getSalary()));
         holder.txtDepartamento.setText(empleado.getDepartmentId().getDepartmentName());
     }
 
