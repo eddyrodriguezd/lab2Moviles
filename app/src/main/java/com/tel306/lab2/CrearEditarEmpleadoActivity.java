@@ -241,7 +241,14 @@ public class CrearEditarEmpleadoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Crear", "clicked");
-                if (!editTextEmpleadoApellido.getText().toString().isEmpty() && !editTextEmpleadoCorreo.getText().toString().isEmpty()) {
+                String regex1 = "\\d+(\\.\\d{1,2})?";
+                String regex2 = "^[0]?\\.([1-9][0-9]|[0][1-9]|[1-9]){1}$";
+                if (!editTextEmpleadoApellido.getText().toString().isEmpty() &&
+                        !editTextEmpleadoCorreo.getText().toString().isEmpty() &&
+                        editTextEmpleadoSalario.getText().toString().matches(regex1) &&
+                        editTextEmpleadoComision.getText().toString().matches(regex2)
+                    )
+                {
 
                     guardarActualizarEmpleado();
                 }
